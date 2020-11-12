@@ -47,12 +47,17 @@ public class DrinkFactoryMachine extends JFrame {
 	JButton money25centsButton;
 	JButton money10centsButton;
 	JButton nfcBiiiipButton;
+	JLabel labelForPictures;
+	JProgressBar progressBar;
+	
 	
 	int drinkPrice; 
 	int paidCoinsValue;
 	int myCoin;
 	int refund;
-	boolean startPrepare = false; // TODO 
+	int cupValue;
+	int step;
+	boolean startPrepare = false; 
 	
 	
 	public void initialDrinkButton() { 
@@ -100,8 +105,17 @@ public class DrinkFactoryMachine extends JFrame {
 			nfcBiiiipButton.setBackground(Color.DARK_GRAY);
 			drinkPrice = 0;
 			paidCoinsValue = 0;
+			cupValue = 0;
 			refund = 0;
+			step = 0;
 			startPrepare = false;
+			BufferedImage myPicture = null;
+			try {
+				myPicture = ImageIO.read(new File("./picts/vide2.jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			labelForPictures.setIcon(new ImageIcon(myPicture));
 		}
 		
 		@Override
@@ -120,10 +134,10 @@ public class DrinkFactoryMachine extends JFrame {
 			messagesToUser.setText("<html>You canceled the order<br>Your coins of 0."+paidCoinsValue+"€ have been returned");
 			cleanInfos();
 		}
-
+ 
 		@Override
 		public void onComfirmCoinsRaised() {
-			refund = paidCoinsValue - drinkPrice;
+			refund = paidCoinsValue + cupValue - drinkPrice;
 			if(refund>0) {
 				messagesToUser.setText("<html>Payment is successful, start to make drinks<br>You will get a refund of 0."+refund+"€");
 				theFSM.raiseOrderSuccess();
@@ -145,82 +159,6 @@ public class DrinkFactoryMachine extends JFrame {
 		}
 
 		@Override
-		public void onBarRaised() {
-			JProgressBar progressBar= new JProgressBar();
-			Timer timer = new Timer();
-			TimerTask Task1 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(14);
-				}
-				
-			};
-			TimerTask Task2 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(72);
-				}
-				
-			};
-			TimerTask Task3 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(100);
-				}
-				
-			};
-			TimerTask Task4 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(3);
-				}
-				
-			};
-			TimerTask Task5 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(13);
-				}
-				
-			};
-			TimerTask Task6 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(16);
-				}
-				
-			};
-			TimerTask Task7 = new TimerTask() {
-				@Override
-				public void run() {
-					progressBar.setValue(91);
-				}
-				
-			};
-			switch(drinkPrice) {
-			case 35:
-				timer.schedule(Task1, 1000);
-				timer.schedule(Task2, 6000);
-				timer.schedule(Task3, 7000);
-				break;
-			
-			case 40:
-				timer.schedule(Task1, 1000);
-				timer.schedule(Task2, 6000);
-				timer.schedule(Task3, 7000);
-				break;
-			case 50:
-				timer.schedule(Task4, 1000);
-				timer.schedule(Task5, 6000);
-				timer.schedule(Task6, 1000);
-				timer.schedule(Task7, 37000);
-				timer.schedule(Task3, 40000);
-				break;
-			// TODO Auto-generated method stub
-			}
-		}
-
-		@Override
 		public void onPrepStartRaised() {
 			startPrepare = true;
 			switch(drinkPrice) {
@@ -239,10 +177,118 @@ public class DrinkFactoryMachine extends JFrame {
 			temperatureSlider.setEnabled(false);
 		}
 
+
+		@Override
+		public void onBarRaised() {
+			switch(step) {
+			case 0:
+				if (drinkPrice == 35&&cupValue==0) {
+				for (int i=1;i<51;i++) {
+				progressBar.setValue(i);
+						}
+				step = step + 1;
+					}
+				else if (drinkPrice ==35 && cupValue!=0) {
+					for (int i=1;i<61;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				else if (drinkPrice == 40&&cupValue==0) {
+					for (int i=1;i<13;i++) {
+						progressBar.setValue(i);
+								}
+					step = step + 1;
+							}
+				else if (drinkPrice ==40 && cupValue !=0) {
+					for (int i=1;i<14;i++) {progressBar.setValue(i);}
+					step ++;
+				}
+				else if (drinkPrice == 50) {
+					for (int i=1;i<15;i++) {
+						progressBar.setValue(i);
+								}
+					step = step + 1;
+							}
+				
+				
+				break;
+			case 1:
+				if (drinkPrice ==35&&cupValue==0) {
+					for (int i=50;i<64;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (drinkPrice == 35 && cupValue !=0 ) {step = step + 1;}
+				if (drinkPrice ==40&&cupValue==0) {
+					for (int i=12;i<19;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (drinkPrice ==40 && cupValue !=0) {
+					
+					step ++;
+				}
+				if (drinkPrice == 50) {
+					for (int i=1;i<46;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				break;
+			case 2:
+				if (drinkPrice == 35&&cupValue==0 ) {
+					for (int i=63;i<=100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (drinkPrice ==35 &&cupValue!=0) {
+					for (int i=60;i<=100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				
+				if (drinkPrice ==40&&cupValue==0) {
+					for (int i=18;i<31;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (drinkPrice ==40 && cupValue !=0) {
+					for (int i=13;i<27;i++) {progressBar.setValue(i);}
+					step ++;
+				}
+				if (drinkPrice==50) {
+					for (int i=45;i<92;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				break;
+			case 3:
+				if (drinkPrice ==35) {progressBar.setValue(100);}
+				if (drinkPrice ==40 && cupValue==0) {
+					for (int i=30;i<81;i++) {progressBar.setValue(i);}
+					step ++;
+				}
+				if (drinkPrice ==40 && cupValue !=0) {
+					for (int i=26;i<81;i++) {progressBar.setValue(i);}
+					step ++;
+				}
+				if (drinkPrice ==50) {
+					for (int i=91;i<100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				break;
+			case 4:
+				if(drinkPrice ==40 &&cupValue==0) {
+					for (int i=80;i<101;i++) {progressBar.setValue(i);}
+				}
+				if (drinkPrice ==40 && cupValue !=0) {
+					for (int i=80;i<100;i++) {progressBar.setValue(i);}
+				}
+				else {progressBar.setValue(100);}
+				break;
+			}
+			
+			
+			// TODO Auto-generated method stub
+			}
+		
+		
 		@Override
 		public void onPrepFinishRaised() {
 			// TODO Auto-generated method stub
 			//进度条结束
+			progressBar.setValue(100);
 			messagesToUser.setText("<html>Your drink is ready");
 		}
 
@@ -383,9 +429,9 @@ public class DrinkFactoryMachine extends JFrame {
 		soupButton.setBounds(12, 145, 96, 25);
 		contentPane.add(soupButton);
 
-		JProgressBar progressBar = new JProgressBar();
+		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
-		progressBar.setValue(10);
+		progressBar.setValue(0);
 		progressBar.setForeground(Color.LIGHT_GRAY);
 		progressBar.setBackground(Color.DARK_GRAY);
 		progressBar.setBounds(12, 254, 622, 26);
@@ -573,8 +619,8 @@ public class DrinkFactoryMachine extends JFrame {
             public void actionPerformed(ActionEvent e) {
             	if(startPrepare)
             		return;
-            	//theFSM.raiseAddCup();
-            	//TODO
+            	cupValue = 10;
+            	theFSM.raiseAddCup();
             }
         });
 
@@ -584,7 +630,7 @@ public class DrinkFactoryMachine extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		JLabel labelForPictures = new JLabel(new ImageIcon(myPicture));
+		labelForPictures = new JLabel(new ImageIcon(myPicture));
 		labelForPictures.setBounds(175, 319, 286, 260);
 		contentPane.add(labelForPictures);
 
