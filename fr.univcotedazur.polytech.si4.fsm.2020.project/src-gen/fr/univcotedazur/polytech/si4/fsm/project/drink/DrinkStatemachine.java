@@ -394,6 +394,24 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
+		private boolean nFCSuccess;
+		
+		
+		public boolean isRaisedNFCSuccess() {
+			synchronized(DrinkStatemachine.this) {
+				return nFCSuccess;
+			}
+		}
+		
+		protected void raiseNFCSuccess() {
+			synchronized(DrinkStatemachine.this) {
+				nFCSuccess = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onNFCSuccessRaised();
+				}
+			}
+		}
+		
 		private boolean myCup;
 		
 		public synchronized boolean getMyCup() {
@@ -447,6 +465,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		cupReady = false;
 		prepStart = false;
 		prepFinish = false;
+		nFCSuccess = false;
 		}
 		
 	}
@@ -916,6 +935,10 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	public synchronized boolean isRaisedPrepFinish() {
 		return sCInterface.isRaisedPrepFinish();
+	}
+	
+	public synchronized boolean isRaisedNFCSuccess() {
+		return sCInterface.isRaisedNFCSuccess();
 	}
 	
 	public synchronized boolean getMyCup() {
@@ -2137,6 +2160,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 						exitSequence_main_region_Customer_r1_initial();
 						sCInterface.raiseIsActive();
 						
+						sCInterface.raiseNFCSuccess();
+						
 						enterSequence_main_region_Customer_r1_waitDrinkChoice_default();
 					} else {
 						did_transition = false;
@@ -2235,6 +2260,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 				} else {
 					if (sCInterface.chooseNFC) {
 						exitSequence_main_region_Customer();
+						sCInterface.raiseNFCSuccess();
+						
 						enterSequence_main_region_preparation_default();
 						react();
 					} else {

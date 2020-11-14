@@ -14,6 +14,8 @@ import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -38,6 +40,17 @@ enum MyDrink{
 }
 
 public class DrinkFactoryMachine extends JFrame {
+	
+	class NFCuser{
+		int paidTimes;
+		String name;
+		Queue<Integer> NFCrecord = new LinkedList<Integer>();
+		
+		NFCuser(String name){
+			this.name = name;
+		}
+	}
+	
 	JLabel messagesToUser;
 	JSlider sugarSlider;
 	JSlider sizeSlider;
@@ -154,6 +167,13 @@ public class DrinkFactoryMachine extends JFrame {
 			}else if(refund<0) {
 				messagesToUser.setText("<html>You still need to pay "+(-0.01*refund)+"€");
 			}
+		}
+		
+
+		@Override
+		public void onNFCSuccessRaised() {
+
+
 		}
 
 		@Override
@@ -319,6 +339,7 @@ public class DrinkFactoryMachine extends JFrame {
 			}
 			labelForPictures.setIcon(new ImageIcon(myPicture));
 		}
+
 	}
 	
 	
