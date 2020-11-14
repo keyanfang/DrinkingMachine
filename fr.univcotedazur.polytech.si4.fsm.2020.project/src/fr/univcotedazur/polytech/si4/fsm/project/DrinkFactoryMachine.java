@@ -11,11 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -40,17 +36,6 @@ enum MyDrink{
 }
 
 public class DrinkFactoryMachine extends JFrame {
-	
-	class NFCuser{
-		int paidTimes;
-		String name;
-		Queue<Integer> NFCrecord = new LinkedList<Integer>();
-		
-		NFCuser(String name){
-			this.name = name;
-		}
-	}
-	
 	JLabel messagesToUser;
 	JSlider sugarSlider;
 	JSlider sizeSlider;
@@ -168,13 +153,6 @@ public class DrinkFactoryMachine extends JFrame {
 				messagesToUser.setText("<html>You still need to pay "+(-0.01*refund)+"€");
 			}
 		}
-		
-
-		@Override
-		public void onNFCSuccessRaised() {
-
-
-		}
 
 		@Override
 		public void onCleanMachineRaised() {
@@ -211,28 +189,22 @@ public class DrinkFactoryMachine extends JFrame {
 		public void onBarRaised() {
 			switch(step) {
 			case 0:
-				if (drinkPrice == 35&&cupValue==0) {
+				if (myDrink == MyDrink.COFFEE) {
 				for (int i=1;i<51;i++) {
 				progressBar.setValue(i);
 						}
 				step = step + 1;
 					}
-				else if (drinkPrice ==35 && cupValue!=0) {
-					for (int i=1;i<61;i++) {progressBar.setValue(i);}
-					step = step + 1;
-				}
-				else if (drinkPrice == 40&&cupValue==0) {
+				
+				else if (myDrink==MyDrink.TEA) {
 					for (int i=1;i<13;i++) {
 						progressBar.setValue(i);
 								}
 					step = step + 1;
 							}
-				else if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=1;i<14;i++) {progressBar.setValue(i);}
-					step ++;
-				}
-				else if (drinkPrice == 50) {
-					for (int i=1;i<15;i++) {
+				
+				else if (myDrink == MyDrink.EXPRESSO) {
+					for (int i=1;i<45;i++) {
 						progressBar.setValue(i);
 								}
 					step = step + 1;
@@ -241,74 +213,90 @@ public class DrinkFactoryMachine extends JFrame {
 				
 				break;
 			case 1:
-				if (drinkPrice ==35&&cupValue==0) {
+				if (myDrink==MyDrink.COFFEE) {
 					for (int i=50;i<64;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice == 35 && cupValue !=0 ) {step = step + 1;}
-				if (drinkPrice ==40&&cupValue==0) {
+				
+				if (myDrink==MyDrink.TEA) {
 					for (int i=12;i<19;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					
-					step ++;
-				}
-				if (drinkPrice == 50) {
-					for (int i=1;i<46;i++) {progressBar.setValue(i);}
+				
+				if (myDrink==MyDrink.EXPRESSO) {
+					for (int i=45;i<64;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
 				break;
 			case 2:
-				if (drinkPrice == 35&&cupValue==0 ) {
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {
 					for (int i=63;i<=100;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice ==35 &&cupValue!=0) {
-					for (int i=60;i<=100;i++) {progressBar.setValue(i);}
+				else if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()!=0) {
+					for (int i=63;i<=87;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				
-				if (drinkPrice ==40&&cupValue==0) {
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=18;i<31;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=13;i<27;i++) {progressBar.setValue(i);}
-					step ++;
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
+					for (int i=18;i<26;i++) {progressBar.setValue(i);}
+					step = step + 1;
 				}
-				if (drinkPrice==50) {
-					for (int i=45;i<92;i++) {progressBar.setValue(i);}
+				
+				if (myDrink==MyDrink.EXPRESSO) {
+					for (int i=64;i<83;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
 				break;
 			case 3:
-				if (drinkPrice ==35) {progressBar.setValue(100);}
-				if (drinkPrice ==40 && cupValue==0) {
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {progressBar.setValue(100);}
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {
+					for (int i=87;i<=100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=30;i<81;i++) {progressBar.setValue(i);}
 					step ++;
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=26;i<81;i++) {progressBar.setValue(i);}
-					step ++;
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
+					for (int i=25;i<31;i++) {progressBar.setValue(i);}
+					step = step + 1;
 				}
-				if (drinkPrice ==50) {
-					for (int i=91;i<100;i++) {progressBar.setValue(i);}
+				
+				if (myDrink==MyDrink.EXPRESSO&&sugarSlider.getValue()==0) {
+					for (int i=83;i<100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (myDrink==MyDrink.EXPRESSO&&sugarSlider.getValue()!=0) {
+					for (int i=83;i<91;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
 				break;
 			case 4:
-				if(drinkPrice ==40 &&cupValue==0) {
+				if(myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=80;i<101;i++) {progressBar.setValue(i);}
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=80;i<100;i++) {progressBar.setValue(i);}
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
+					for (int i=31;i<81;i++) {progressBar.setValue(i);}
+					step = step + 1;
 				}
+				
+				if (myDrink==MyDrink.EXPRESSO&&sugarSlider.getValue()!=0) {
+					for (int i=91;i<100;i++) {progressBar.setValue(i);}
+					}
+				else {progressBar.setValue(100);}
+				break;
+			
+			case 5:
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
+					for (int i=81;i<101;i++) {progressBar.setValue(i);}
+									}
 				else {progressBar.setValue(100);}
 				break;
 			}
-			
-			
 			// TODO Auto-generated method stub
 			}
 		
@@ -331,15 +319,14 @@ public class DrinkFactoryMachine extends JFrame {
 
 		@Override
 		public void onCupReadyRaised() {
-			BufferedImage myPicture = null;
-			try {
-				myPicture = ImageIO.read(new File("./picts/gobeletPolluant.jpg"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			labelForPictures.setIcon(new ImageIcon(myPicture));
+			// nothing
 		}
 
+		@Override
+		public void onNFCSuccessRaised() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	
 	
