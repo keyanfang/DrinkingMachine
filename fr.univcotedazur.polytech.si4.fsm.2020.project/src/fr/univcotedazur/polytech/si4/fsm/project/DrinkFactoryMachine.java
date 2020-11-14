@@ -54,14 +54,14 @@ class NFCuser{
 	//true if he has discount 
 	boolean newNfcPay(int value) {
 		//TODO 10
-		if(paidTimes==3) {
+		//TODO 如果大于平均值
+		if(paidTimes==2) {
 			int discount = paidSum/paidTimes;
 			paidTimes=0;
 			paidSum = 0;
 			if(discount>=value) {
 				return true;
 			}
-			
 		}else {
 			paidTimes++;
 			paidSum += value;
@@ -205,7 +205,7 @@ public class DrinkFactoryMachine extends JFrame {
 			for(NFCuser nfcuser:NFCusers) {
 				if(nfcuser.name.equals(nfcName)) {
 					boolean discount = nfcuser.newNfcPay(drinkPrice);
-					
+					 
 					//TODO
 					if(discount) {
 						drinkPrice = 0;
@@ -240,19 +240,18 @@ public class DrinkFactoryMachine extends JFrame {
 		@Override
 		public void onPrepStartRaised() {
 			startPrepare = true;
-			if(byNFC)
-				
-				
+			if(byNFC) {
 				//TODO
 				//messagesToUser.setText("<html>Payment is successful, start to make drinks");
-			switch(drinkPrice) {
-				case 35:
+			}
+			switch(myDrink) {
+				case COFFEE:
 					theFSM.raiseIsCoffee();
 					break;
-				case 50:
+				case EXPRESSO:
 					theFSM.raiseIsEspresso();
 					break;
-				case 40:
+				case TEA:
 					theFSM.raiseIsTea();
 					break;
 			} 
@@ -374,9 +373,6 @@ public class DrinkFactoryMachine extends JFrame {
 				break;
 			}
 			
-			
-			
-			// TODO 
 			}
 		
 		
@@ -746,7 +742,7 @@ public class DrinkFactoryMachine extends JFrame {
 		panel_2.setBounds(538, 217, 96, 33);
 		contentPane.add(panel_2);
 
-		 
+		//TODO 准备时候阻止输入
 		NfcName = new JTextField(10);
 		NfcName.setEditable(true);
 		NfcName.setColumns(11);
