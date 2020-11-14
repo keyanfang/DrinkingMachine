@@ -311,7 +311,13 @@ public class DrinkFactoryMachine extends JFrame {
 
 		@Override
 		public void onCupReadyRaised() {
-			// nothing
+			BufferedImage myPicture = null;
+			try {
+				myPicture = ImageIO.read(new File("./picts/gobeletPolluant.jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			labelForPictures.setIcon(new ImageIcon(myPicture));
 		}
 	}
 	
