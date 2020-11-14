@@ -5,17 +5,19 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -26,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
@@ -39,17 +42,35 @@ enum MyDrink{
 	COFFEE,EXPRESSO,TEA;
 }
 
-public class DrinkFactoryMachine extends JFrame {
+class NFCuser{
+	int paidTimes;
+	int paidSum;
+	String name;
 	
-	class NFCuser{
-		int paidTimes;
-		String name;
-		Queue<Integer> NFCrecord = new LinkedList<Integer>();
-		
-		NFCuser(String name){
-			this.name = name;
-		}
+	NFCuser(String name){
+		this.name = name;
 	}
+	
+	//true if he has discount 
+	boolean newNfcPay(int value) {
+		//TODO 10
+		if(paidTimes==3) {
+			int discount = paidSum/paidTimes;
+			paidTimes=0;
+			paidSum = 0;
+			if(discount>=value) {
+				return true;
+			}
+			
+		}else {
+			paidTimes++;
+			paidSum += value;
+		}
+		return false;
+	}
+}
+
+public class DrinkFactoryMachine extends JFrame {
 	
 	JLabel messagesToUser;
 	JSlider sugarSlider;
@@ -63,6 +84,7 @@ public class DrinkFactoryMachine extends JFrame {
 	JButton money25centsButton;
 	JButton money10centsButton;
 	JButton nfcBiiiipButton;
+	JTextField NfcName;
 	JLabel labelForPictures;
 	JProgressBar progressBar;
 	
@@ -75,7 +97,7 @@ public class DrinkFactoryMachine extends JFrame {
 	int cupValue;
 	int step;
 	boolean startPrepare = false; 
-	
+	List<NFCuser> NFCusers = new ArrayList<>(); 	
 	
 	public void initialDrinkButton() { 
 		coffeeButton.setBackground(Color.DARK_GRAY);
@@ -129,6 +151,7 @@ public class DrinkFactoryMachine extends JFrame {
 			byNFC=false;
 			startPrepare = false;
 			progressBar.setValue(0);
+			NfcName.setText("give name for NFC");
 			BufferedImage myPicture = null;
 			try {
 				myPicture = ImageIO.read(new File("./picts/vide2.jpg"));
@@ -144,19 +167,21 @@ public class DrinkFactoryMachine extends JFrame {
 					+ "The order has been canceled");
 			if(paidCoinsValue>0) {
 				messagesToUser.setText("<html>You have not operated for 45 seconds<br>"
-						+ "The order has been canceled <br>Your coins of 0."+paidCoinsValue+"€ have been returned");
+						+ "The order has been canceled <br>Your 0."+paidCoinsValue+"€ have been returned");
 			}
 			cleanInfos();
 		}
 
 		@Override
 		public void onCancelOrderRaised() {
-			messagesToUser.setText("<html>You canceled the order<br>Your coins of 0."+paidCoinsValue+"€ have been returned");
+			messagesToUser.setText("<html>You canceled the order<br>Your 0."+paidCoinsValue+"€ have been returned");
 			cleanInfos();
 		}
  
 		@Override
 		public void onComfirmCoinsRaised() {
+			if(drinkPrice==0)
+				return;
 			refund = paidCoinsValue + cupValue - drinkPrice;
 			if(refund>0) {
 				messagesToUser.setText("<html>Payment is successful, start to make drinks<br>You will get a refund of 0."+refund+"€");
@@ -172,8 +197,35 @@ public class DrinkFactoryMachine extends JFrame {
 
 		@Override
 		public void onNFCSuccessRaised() {
-
-
+			boolean exist = false;
+			String nfcName = NfcName.getText(); 
+			if(nfcName.equals("")||nfcName.equals("give name for NFC"))
+				return;
+			
+			for(NFCuser nfcuser:NFCusers) {
+				if(nfcuser.name.equals(nfcName)) {
+					boolean discount = nfcuser.newNfcPay(drinkPrice);
+					
+					//TODO
+					if(discount) {
+						drinkPrice = 0;
+						messagesToUser.setText("<html>Your discount");
+					}
+						
+					exist = true;
+					break;
+				}
+			}
+			
+			if(!exist) {
+				NFCuser user = new NFCuser(nfcName);
+				NFCusers.add(user);
+				user.newNfcPay(drinkPrice);
+				
+				//TODO
+				messagesToUser.setText("new nfc user");
+			}
+			
 		}
 
 		@Override
@@ -189,7 +241,10 @@ public class DrinkFactoryMachine extends JFrame {
 		public void onPrepStartRaised() {
 			startPrepare = true;
 			if(byNFC)
-				messagesToUser.setText("<html>Payment is successful, start to make drinks");
+				
+				
+				//TODO
+				//messagesToUser.setText("<html>Payment is successful, start to make drinks");
 			switch(drinkPrice) {
 				case 35:
 					theFSM.raiseIsCoffee();
@@ -211,105 +266,117 @@ public class DrinkFactoryMachine extends JFrame {
 		public void onBarRaised() {
 			switch(step) {
 			case 0:
-				if (drinkPrice == 35&&cupValue==0) {
-				for (int i=1;i<51;i++) {
-				progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE) {
+					for (int i=1;i<51;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
 						}
-				step = step + 1;
-					}
-				else if (drinkPrice ==35 && cupValue!=0) {
-					for (int i=1;i<61;i++) {progressBar.setValue(i);}
-					step = step + 1;
-				}
-				else if (drinkPrice == 40&&cupValue==0) {
-					for (int i=1;i<13;i++) {
-						progressBar.setValue(i);
+					
+					else if (myDrink==MyDrink.TEA) {
+						for (int i=1;i<13;i++) {
+							progressBar.setValue(i);
+									}
+						step = step + 1;
 								}
-					step = step + 1;
-							}
-				else if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=1;i<14;i++) {progressBar.setValue(i);}
-					step ++;
-				}
-				else if (drinkPrice == 50) {
-					for (int i=1;i<15;i++) {
-						progressBar.setValue(i);
+					
+					else if (myDrink == MyDrink.EXPRESSO) {
+						for (int i=1;i<45;i++) {
+							progressBar.setValue(i);
+									}
+						step = step + 1;
 								}
-					step = step + 1;
-							}
 				
 				
 				break;
 			case 1:
-				if (drinkPrice ==35&&cupValue==0) {
+				if (myDrink==MyDrink.COFFEE) {
 					for (int i=50;i<64;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice == 35 && cupValue !=0 ) {step = step + 1;}
-				if (drinkPrice ==40&&cupValue==0) {
+				
+				if (myDrink==MyDrink.TEA) {
 					for (int i=12;i<19;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					
-					step ++;
-				}
-				if (drinkPrice == 50) {
-					for (int i=1;i<46;i++) {progressBar.setValue(i);}
+				
+				if (myDrink==MyDrink.EXPRESSO) {
+					for (int i=45;i<64;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
 				break;
 			case 2:
-				if (drinkPrice == 35&&cupValue==0 ) {
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {
 					for (int i=63;i<=100;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice ==35 &&cupValue!=0) {
-					for (int i=60;i<=100;i++) {progressBar.setValue(i);}
+				else if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()!=0) {
+					for (int i=63;i<=87;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				
-				if (drinkPrice ==40&&cupValue==0) {
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=18;i<31;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=13;i<27;i++) {progressBar.setValue(i);}
-					step ++;
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
+					for (int i=18;i<26;i++) {progressBar.setValue(i);}
+					step = step + 1;
 				}
-				if (drinkPrice==50) {
-					for (int i=45;i<92;i++) {progressBar.setValue(i);}
+				
+				if (myDrink==MyDrink.EXPRESSO) {
+					for (int i=64;i<83;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
 				break;
 			case 3:
-				if (drinkPrice ==35) {progressBar.setValue(100);}
-				if (drinkPrice ==40 && cupValue==0) {
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {progressBar.setValue(100);}
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {
+					for (int i=87;i<=100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=30;i<81;i++) {progressBar.setValue(i);}
 					step ++;
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=26;i<81;i++) {progressBar.setValue(i);}
-					step ++;
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
+					for (int i=25;i<31;i++) {progressBar.setValue(i);}
+					step = step + 1;
 				}
-				if (drinkPrice ==50) {
-					for (int i=91;i<100;i++) {progressBar.setValue(i);}
+				
+				if (myDrink==MyDrink.EXPRESSO&&sugarSlider.getValue()==0) {
+					for (int i=83;i<100;i++) {progressBar.setValue(i);}
+					step = step + 1;
+				}
+				if (myDrink==MyDrink.EXPRESSO&&sugarSlider.getValue()!=0) {
+					for (int i=83;i<91;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
 				break;
 			case 4:
-				if(drinkPrice ==40 &&cupValue==0) {
+				if(myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=80;i<101;i++) {progressBar.setValue(i);}
 				}
-				if (drinkPrice ==40 && cupValue !=0) {
-					for (int i=80;i<100;i++) {progressBar.setValue(i);}
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
+					for (int i=31;i<81;i++) {progressBar.setValue(i);}
+					step = step + 1;
 				}
+				
+				if (myDrink==MyDrink.EXPRESSO&&sugarSlider.getValue()!=0) {
+					for (int i=91;i<100;i++) {progressBar.setValue(i);}
+					}
+				else {progressBar.setValue(100);}
+				break;
+			case 5:
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
+					for (int i=81;i<101;i++) {progressBar.setValue(i);}
+									}
 				else {progressBar.setValue(100);}
 				break;
 			}
 			
 			
-			// TODO Auto-generated method stub
+			
+			// TODO 
 			}
 		
 		
@@ -672,12 +739,34 @@ public class DrinkFactoryMachine extends JFrame {
 		labelForPictures = new JLabel(new ImageIcon(myPicture));
 		labelForPictures.setBounds(175, 319, 286, 260);
 		contentPane.add(labelForPictures);
+		
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.DARK_GRAY);
 		panel_2.setBounds(538, 217, 96, 33);
 		contentPane.add(panel_2);
 
+		 
+		NfcName = new JTextField(10);
+		NfcName.setEditable(true);
+		NfcName.setColumns(11);
+		NfcName.setBackground(Color.WHITE);
+		NfcName.setBounds(495, 336, 106, 25);
+		NfcName.setText("give name for NFC");
+		contentPane.add(NfcName);
+		NfcName.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				NfcName.setText("");
+				//TODO theFSM.raiseIsActive();
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				//TODO theFSM.raiseIsActive();
+			}
+        });
+		
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setForeground(Color.WHITE);
 		cancelButton.setBackground(Color.DARK_GRAY);
@@ -691,7 +780,7 @@ public class DrinkFactoryMachine extends JFrame {
             }
         });
 
-		// listeners
+		
 		addCupButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

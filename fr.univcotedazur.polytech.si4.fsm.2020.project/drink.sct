@@ -8,7 +8,7 @@
           <vertices xsi:type="sgraph:State" xmi:id="_A1gEMAoLEeuxVuC0SdEwDQ" specification="entry /&#xD;&#xA;myCup=false" name="initial" incomingTransitions="_DHrQQAoNEeuxVuC0SdEwDQ">
             <outgoingTransitions xmi:id="_2eUfoA-JEeuD49gohd0kfA" specification="chooseCoin/raise waitCoin;raise isActive" target="_gQYd0A-JEeuD49gohd0kfA"/>
             <outgoingTransitions xmi:id="_PaRNUBUQEeuw07S0GHlWVw" specification="chooseDrink/raise isActive" target="_tOVWsAoSEeuxVuC0SdEwDQ"/>
-            <outgoingTransitions xmi:id="_xs5JABUQEeuw07S0GHlWVw" specification="chooseNFC/raise isActive;raise NFCSuccess" target="_v_8fBRUQEeuw07S0GHlWVw"/>
+            <outgoingTransitions xmi:id="_xs5JABUQEeuw07S0GHlWVw" specification="chooseNFC/raise isActive" target="_v_8fBRUQEeuw07S0GHlWVw"/>
           </vertices>
           <vertices xsi:type="sgraph:Entry" xmi:id="_ITIv4AoKEeuxVuC0SdEwDQ">
             <outgoingTransitions xmi:id="_DHrQQAoNEeuxVuC0SdEwDQ" specification="" target="_A1gEMAoLEeuxVuC0SdEwDQ"/>
@@ -34,7 +34,7 @@
             <outgoingTransitions xmi:id="_ujA_MBhLEeuIqpe8ec6wyg" specification="chooseNFC/raise NFCSuccess" target="_-MXaEBUTEeuLVLZDQt4fkw"/>
           </vertices>
           <vertices xsi:type="sgraph:State" xmi:id="_v_8fBRUQEeuw07S0GHlWVw" name="waitDrinkChoice" incomingTransitions="_xs5JABUQEeuw07S0GHlWVw">
-            <outgoingTransitions xmi:id="_yZapABhLEeuIqpe8ec6wyg" specification="chooseDrink" target="_-MXaEBUTEeuLVLZDQt4fkw"/>
+            <outgoingTransitions xmi:id="_yZapABhLEeuIqpe8ec6wyg" specification="chooseDrink/raise NFCSuccess" target="_-MXaEBUTEeuLVLZDQt4fkw"/>
           </vertices>
         </regions>
         <regions xmi:id="_fiNMoQoMEeuxVuC0SdEwDQ" name="r2">

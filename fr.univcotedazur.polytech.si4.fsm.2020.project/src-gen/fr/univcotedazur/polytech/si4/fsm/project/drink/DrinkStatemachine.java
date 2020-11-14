@@ -2160,8 +2160,6 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 						exitSequence_main_region_Customer_r1_initial();
 						sCInterface.raiseIsActive();
 						
-						sCInterface.raiseNFCSuccess();
-						
 						enterSequence_main_region_Customer_r1_waitDrinkChoice_default();
 					} else {
 						did_transition = false;
@@ -2279,6 +2277,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		if (try_transition) {
 			if (sCInterface.chooseDrink) {
 				exitSequence_main_region_Customer();
+				sCInterface.raiseNFCSuccess();
+				
 				enterSequence_main_region_preparation_default();
 				react();
 			} else {
