@@ -196,6 +196,24 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
+		private boolean takeDrink;
+		
+		
+		public void raiseTakeDrink() {
+			synchronized(DrinkStatemachine.this) {
+				inEventQueue.add(
+					new Runnable() {
+						@Override
+						public void run() {
+							takeDrink = true;
+							singleCycle();
+						}
+					}
+				);
+				runCycle();
+			}
+		}
+		
 		private boolean waitCoin;
 		
 		
@@ -451,6 +469,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			isCoffee = false;
 			isEspresso = false;
 			isTea = false;
+			takeDrink = false;
 		}
 		protected void clearOutEvents() {
 		
@@ -521,7 +540,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[18];
+	private final boolean[] timeEvents = new boolean[17];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -893,6 +912,10 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		sCInterface.raiseIsTea();
 	}
 	
+	public synchronized void raiseTakeDrink() {
+		sCInterface.raiseTakeDrink();
+	}
+	
 	public synchronized boolean isRaisedWaitCoin() {
 		return sCInterface.isRaisedWaitCoin();
 	}
@@ -1035,34 +1058,29 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		timer.setTimer(this, 11, (1 * 1000), false);
 	}
 	
-	/* Entry action for state 'drinkRready'. */
-	private void entryAction_main_region_drinkRready() {
-		timer.setTimer(this, 12, (4 * 1000), false);
-	}
-	
 	/* Entry action for state 'infusion'. */
 	private void entryAction_main_region_infusion() {
-		timer.setTimer(this, 13, (8 * 1000), false);
+		timer.setTimer(this, 12, (8 * 1000), false);
 	}
 	
 	/* Entry action for state 'removeTeaBag'. */
 	private void entryAction_main_region_removeTeaBag() {
-		timer.setTimer(this, 14, (3 * 1000), false);
+		timer.setTimer(this, 13, (3 * 1000), false);
 	}
 	
 	/* Entry action for state 'addSugar'. */
 	private void entryAction_main_region_Sugar_Water_r1_addSugar() {
-		timer.setTimer(this, 15, (1 * 1000), false);
+		timer.setTimer(this, 14, (1 * 1000), false);
 	}
 	
 	/* Entry action for state 'addWater'. */
 	private void entryAction_main_region_Sugar_Water_r2_addWater() {
-		timer.setTimer(this, 16, (2 * 1000), false);
+		timer.setTimer(this, 15, (2 * 1000), false);
 	}
 	
 	/* Entry action for state 'judge'. */
 	private void entryAction_main_region_judge() {
-		timer.setTimer(this, 17, 100, true);
+		timer.setTimer(this, 16, 100, true);
 	}
 	
 	/* Exit action for state 'active'. */
@@ -1125,34 +1143,29 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		timer.unsetTimer(this, 11);
 	}
 	
-	/* Exit action for state 'drinkRready'. */
-	private void exitAction_main_region_drinkRready() {
-		timer.unsetTimer(this, 12);
-	}
-	
 	/* Exit action for state 'infusion'. */
 	private void exitAction_main_region_infusion() {
-		timer.unsetTimer(this, 13);
+		timer.unsetTimer(this, 12);
 	}
 	
 	/* Exit action for state 'removeTeaBag'. */
 	private void exitAction_main_region_removeTeaBag() {
-		timer.unsetTimer(this, 14);
+		timer.unsetTimer(this, 13);
 	}
 	
 	/* Exit action for state 'addSugar'. */
 	private void exitAction_main_region_Sugar_Water_r1_addSugar() {
-		timer.unsetTimer(this, 15);
+		timer.unsetTimer(this, 14);
 	}
 	
 	/* Exit action for state 'addWater'. */
 	private void exitAction_main_region_Sugar_Water_r2_addWater() {
-		timer.unsetTimer(this, 16);
+		timer.unsetTimer(this, 15);
 	}
 	
 	/* Exit action for state 'judge'. */
 	private void exitAction_main_region_judge() {
-		timer.unsetTimer(this, 17);
+		timer.unsetTimer(this, 16);
 	}
 	
 	/* 'default' enter sequence for state Customer */
@@ -1342,7 +1355,6 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	/* 'default' enter sequence for state drinkRready */
 	private void enterSequence_main_region_drinkRready_default() {
-		entryAction_main_region_drinkRready();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_drinkRready;
 	}
@@ -1657,8 +1669,6 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	private void exitSequence_main_region_drinkRready() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NullState$;
-		
-		exitAction_main_region_drinkRready();
 	}
 	
 	/* Default exit sequence for state infusion */
@@ -2698,7 +2708,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[12]) {
+			if (sCInterface.takeDrink) {
 				exitSequence_main_region_drinkRready();
 				sCInterface.raiseCleanMachine();
 				
@@ -2718,7 +2728,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[13]) {
+			if (timeEvents[12]) {
 				exitSequence_main_region_infusion();
 				sCInterface.raiseBar();
 				
@@ -2738,7 +2748,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[14]) {
+			if (timeEvents[13]) {
 				exitSequence_main_region_removeTeaBag();
 				sCInterface.raisePrepFinish();
 				
@@ -2770,7 +2780,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[15]) {
+			if (timeEvents[14]) {
 				exitSequence_main_region_Sugar_Water_r1_addSugar();
 				sCInterface.raiseBar();
 				
@@ -2786,7 +2796,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[16]) {
+			if (timeEvents[15]) {
 				exitSequence_main_region_Sugar_Water_r2_addWater();
 				sCInterface.raiseBar();
 				
@@ -2817,7 +2827,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 					enterSequence_main_region_infusion_default();
 					react();
 				} else {
-					if (timeEvents[17]) {
+					if (timeEvents[16]) {
 						exitSequence_main_region_judge();
 						enterSequence_main_region_judge_default();
 						react();

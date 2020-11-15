@@ -32,6 +32,8 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public void raiseIsTea();
 		
+		public void raiseTakeDrink();
+		
 		public boolean isRaisedWaitCoin();
 		
 		public boolean isRaisedInitial();

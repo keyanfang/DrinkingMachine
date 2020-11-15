@@ -152,6 +152,7 @@ public class DrinkFactoryMachine extends JFrame {
 			startPrepare = false;
 			progressBar.setValue(0);
 			NfcName.setText("give name for NFC");
+			NfcName.setEditable(true);
 			BufferedImage myPicture = null;
 			try {
 				myPicture = ImageIO.read(new File("./picts/vide2.jpg"));
@@ -209,7 +210,7 @@ public class DrinkFactoryMachine extends JFrame {
 					//TODO
 					if(discount) {
 						drinkPrice = 0;
-						messagesToUser.setText("<html>Your discount");
+						messagesToUser.setText("<html>This is your 11th time using NFC. Your drink is free this time.");
 					}
 						
 					exist = true;
@@ -240,6 +241,7 @@ public class DrinkFactoryMachine extends JFrame {
 		@Override
 		public void onPrepStartRaised() {
 			startPrepare = true;
+			NfcName.setEditable(false);
 			if(byNFC) {
 				//TODO
 				//messagesToUser.setText("<html>Payment is successful, start to make drinks");
@@ -380,6 +382,13 @@ public class DrinkFactoryMachine extends JFrame {
 		public void onPrepFinishRaised() {
 			progressBar.setValue(100);
 			messagesToUser.setText("<html>Your drink is ready");
+			
+			labelForPictures.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					theFSM.raiseTakeDrink();
+				}
+			});
 		}
 
 		@Override
@@ -716,15 +725,6 @@ public class DrinkFactoryMachine extends JFrame {
 		addCupButton.setBackground(Color.DARK_GRAY);
 		addCupButton.setBounds(45, 336, 96, 25);
 		contentPane.add(addCupButton);
-		addCupButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	if(startPrepare)
-            		return;
-            	cupValue = 10;
-            	theFSM.raiseAddCup();
-            }
-        });
 
 		BufferedImage myPicture = null;
 		try {
@@ -741,8 +741,7 @@ public class DrinkFactoryMachine extends JFrame {
 		panel_2.setBackground(Color.DARK_GRAY);
 		panel_2.setBounds(538, 217, 96, 33);
 		contentPane.add(panel_2);
-
-		//TODO 准备时候阻止输入
+		
 		NfcName = new JTextField(10);
 		NfcName.setEditable(true);
 		NfcName.setColumns(11);
@@ -753,6 +752,8 @@ public class DrinkFactoryMachine extends JFrame {
 		NfcName.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
+				if(startPrepare)
+            		return;
 				NfcName.setText("");
 				//TODO theFSM.raiseIsActive();
 			}
@@ -780,6 +781,10 @@ public class DrinkFactoryMachine extends JFrame {
 		addCupButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(startPrepare)
+            		return;
+            	cupValue = 10;
+            	theFSM.raiseAddCup();
 				BufferedImage myPicture = null;
 				try {
 					myPicture = ImageIO.read(new File("./picts/ownCup.jpg"));
