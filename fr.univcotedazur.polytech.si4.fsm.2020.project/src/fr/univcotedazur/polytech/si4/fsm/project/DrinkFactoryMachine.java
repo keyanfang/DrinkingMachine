@@ -46,18 +46,17 @@ enum MyDrink{
 }
 
 class NFCuser{
-	int paidTimes;
-	int paidSum;
+	int paidTimes=0;
+	int paidSum=0;
 	String name;
 	
 	NFCuser(String name){
 		this.name = name;
 	}
 	
-	//return the amount he should pay
+	//at 11th time,return the amount he should pay
 	public int newNfcPay(int value) {
 		//TODO 10
-		//TODO 如果大于平均值 正负0
 		if(paidTimes==2) {
 			int discount = paidSum/paidTimes;
 			paidTimes=0;
@@ -65,13 +64,13 @@ class NFCuser{
 			if(discount>=value) {
 				return 0;
 			}else {
-				return value - discount;
+				return value-discount;
 			}
 		}else {
 			paidTimes++;
 			paidSum += value;
+			return -1;
 		}
-		return value;
 	}
 }
  
@@ -115,7 +114,6 @@ public class DrinkFactoryMachine extends JFrame{
 	}
 	
 	public void initialOptionButton() {
-		//TODO
 		addMilkButton.setBackground(Color.DARK_GRAY);
 		addSirupButton.setBackground(Color.DARK_GRAY);
 		addIceButton.setBackground(Color.DARK_GRAY);
@@ -227,9 +225,10 @@ public class DrinkFactoryMachine extends JFrame{
 					//TODO
 					if(toPay==0) {
 						drinkPrice = 0;
-						messagesToUser.setText("<html>This is your 11th time using NFC. Your drink is free this time.");
+						messagesToUser.setText("<html>This is your 11th time using NFC. Your drink is free this time, start to make your drink.");
 					}else if(toPay>0) {
-						messagesToUser.setText("<html>This is your 11th time using NFC. You only need to pay 0."+ toPay +"€.");
+						drinkPrice = toPay;
+						messagesToUser.setText("<html>This is your 11th time using NFC. You only need to pay "+ 0.01*toPay +"€, start to make your drink.");
 					}
 					exist = true;
 					break;
@@ -242,7 +241,7 @@ public class DrinkFactoryMachine extends JFrame{
 				user.newNfcPay(drinkPrice);
 				
 				//TODO
-				messagesToUser.setText("new nfc user");
+				messagesToUser.setText("<html>Hello, new nfc user, start to make your drink");
 			}
 			
 		}
@@ -260,10 +259,6 @@ public class DrinkFactoryMachine extends JFrame{
 		public void onPrepStartRaised() {
 			startPrepare = true;
 			NfcName.setEditable(false);
-			if(byNFC) {
-				//TODO
-				//messagesToUser.setText("<html>Payment is successful, start to make drinks");
-			}
 			switch(myDrink) {
 				case COFFEE:
 					theFSM.raiseIsCoffee();
