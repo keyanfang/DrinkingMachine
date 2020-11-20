@@ -349,7 +349,7 @@ public class DrinkFactoryMachine extends JFrame{
 				break;
 			case 3:
 				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {progressBar.setValue(100);}
-				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()==0) {
+				if (myDrink==MyDrink.COFFEE&&sugarSlider.getValue()!=0) {
 					for (int i=87;i<=100;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
@@ -375,7 +375,7 @@ public class DrinkFactoryMachine extends JFrame{
 				if(myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
 					for (int i=80;i<101;i++) {progressBar.setValue(i);}
 				}
-				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()==0) {
+				if (myDrink==MyDrink.TEA&&sugarSlider.getValue()!=0) {
 					for (int i=31;i<81;i++) {progressBar.setValue(i);}
 					step = step + 1;
 				}
