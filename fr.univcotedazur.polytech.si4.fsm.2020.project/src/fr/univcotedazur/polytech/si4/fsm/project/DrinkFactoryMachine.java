@@ -84,6 +84,9 @@ public class DrinkFactoryMachine extends JFrame {
 	JButton money25centsButton;
 	JButton money10centsButton;
 	JButton nfcBiiiipButton;
+	JButton addMilkButton;
+	JButton addSirupButton;
+	JButton addIceButton;
 	JTextField NfcName;
 	JLabel labelForPictures;
 	JProgressBar progressBar;
@@ -95,6 +98,7 @@ public class DrinkFactoryMachine extends JFrame {
 	int myCoin;
 	int refund;
 	int cupValue;
+	int optionPrice;
 	int step;
 	boolean startPrepare = false; 
 	List<NFCuser> NFCusers = new ArrayList<>(); 	
@@ -103,6 +107,13 @@ public class DrinkFactoryMachine extends JFrame {
 		coffeeButton.setBackground(Color.DARK_GRAY);
 		expressoButton.setBackground(Color.DARK_GRAY);
 		teaButton.setBackground(Color.DARK_GRAY);
+	}
+	
+	public void initialOptionButton() {
+		//TODO
+		addMilkButton.setBackground(Color.DARK_GRAY);
+		addSirupButton.setBackground(Color.DARK_GRAY);
+		addIceButton.setBackground(Color.DARK_GRAY);
 	}
 	
 	public void initialSliders() { 
@@ -134,7 +145,7 @@ public class DrinkFactoryMachine extends JFrame {
 			myWait(500);
 			paidCoinsValue += myCoin;
 			if(drinkPrice!=0) {
-				onComfirmCoinsRaised();
+				onConfirmCoinsRaised();
 			} 	
 		}
 
@@ -180,7 +191,7 @@ public class DrinkFactoryMachine extends JFrame {
 		}
  
 		@Override
-		public void onComfirmCoinsRaised() {
+		public void onConfirmCoinsRaised() {
 			if(drinkPrice==0)
 				return;
 			refund = paidCoinsValue + cupValue - drinkPrice;
@@ -533,11 +544,11 @@ public class DrinkFactoryMachine extends JFrame {
             }
         });
 
-		JButton soupButton = new JButton("Soup");
-		soupButton.setForeground(Color.WHITE);
-		soupButton.setBackground(Color.DARK_GRAY);
-		soupButton.setBounds(12, 145, 96, 25);
-		contentPane.add(soupButton);
+//		JButton soupButton = new JButton("Soup");
+//		soupButton.setForeground(Color.WHITE);
+//		soupButton.setBackground(Color.DARK_GRAY);
+//		soupButton.setBounds(12, 145, 96, 25);
+//		contentPane.add(soupButton);
 
 		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
@@ -615,11 +626,11 @@ public class DrinkFactoryMachine extends JFrame {
 
 		contentPane.add(temperatureSlider);
 
-		JButton icedTeaButton = new JButton("Iced Tea");
-		icedTeaButton.setForeground(Color.WHITE);
-		icedTeaButton.setBackground(Color.DARK_GRAY);
-		icedTeaButton.setBounds(12, 182, 96, 25);
-		contentPane.add(icedTeaButton);
+//		JButton icedTeaButton = new JButton("Iced Tea");
+//		icedTeaButton.setForeground(Color.WHITE);
+//		icedTeaButton.setBackground(Color.DARK_GRAY);
+//		icedTeaButton.setBounds(12, 182, 96, 25);
+//		contentPane.add(icedTeaButton);
 
 		JLabel lblSugar = new JLabel("Sugar");
 		lblSugar.setForeground(Color.WHITE);
@@ -725,6 +736,60 @@ public class DrinkFactoryMachine extends JFrame {
 		addCupButton.setBackground(Color.DARK_GRAY);
 		addCupButton.setBounds(45, 336, 96, 25);
 		contentPane.add(addCupButton);
+		
+		addMilkButton = new JButton("Add milk");
+		addMilkButton.setForeground(Color.WHITE);
+		addMilkButton.setBackground(Color.DARK_GRAY);
+		addMilkButton.setBounds(45, 406, 96, 25);
+		contentPane.add(addMilkButton); 
+		addMilkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(startPrepare)
+            		return;
+
+            	optionPrice += 10;
+            	initialOptionButton();
+            	addMilkButton.setBackground(Color.green);
+            	theFSM.raiseChooseMilk();
+            }
+        });
+		
+		addSirupButton = new JButton("Add sirup");
+		addSirupButton.setForeground(Color.WHITE);
+		addSirupButton.setBackground(Color.DARK_GRAY);
+		addSirupButton.setBounds(45, 446, 96, 25);
+		contentPane.add(addSirupButton);  
+		addSirupButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(startPrepare)
+            		return;
+
+            	optionPrice += 10;
+            	initialOptionButton();
+            	addSirupButton.setBackground(Color.green);
+            	theFSM.raiseChooseMilk();
+            }
+        });
+		
+		addIceButton = new JButton("Add ice");
+		addIceButton.setForeground(Color.WHITE);
+		addIceButton.setBackground(Color.DARK_GRAY);
+		addIceButton.setBounds(45, 486, 96, 25);
+		contentPane.add(addIceButton); 
+		addIceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(startPrepare)
+            		return;
+
+            	optionPrice += 60;
+            	initialOptionButton();
+            	addIceButton.setBackground(Color.green);
+            	theFSM.raiseChooseMilk();
+            }
+        });
 
 		BufferedImage myPicture = null;
 		try {
@@ -778,7 +843,7 @@ public class DrinkFactoryMachine extends JFrame {
         });
 
 		
-		addCupButton.addMouseListener(new MouseAdapter() {
+		addIceButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(startPrepare)

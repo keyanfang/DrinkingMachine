@@ -34,6 +34,12 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public void raiseTakeDrink();
 		
+		public void raiseChooseMilk();
+		
+		public void raiseChooseSirup();
+		
+		public void raiseChooseIce();
+		
 		public boolean isRaisedWaitCoin();
 		
 		public boolean isRaisedInitial();
@@ -42,7 +48,7 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public boolean isRaisedIsActive();
 		
-		public boolean isRaisedComfirmCoins();
+		public boolean isRaisedConfirmCoins();
 		
 		public boolean isRaisedCleanMachine();
 		
@@ -66,6 +72,18 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public void setTea(boolean value);
 		
+		public boolean getMyMilk();
+		
+		public void setMyMilk(boolean value);
+		
+		public boolean getMySirup();
+		
+		public void setMySirup(boolean value);
+		
+		public boolean getMyIce();
+		
+		public void setMyIce(boolean value);
+		
 	public List<SCInterfaceListener> getListeners();
 	}
 	
@@ -75,7 +93,7 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		public void onInitialRaised();
 		public void onCancelOrderRaised();
 		public void onIsActiveRaised();
-		public void onComfirmCoinsRaised();
+		public void onConfirmCoinsRaised();
 		public void onCleanMachineRaised();
 		public void onBarRaised();
 		public void onWaterReadyRaised();

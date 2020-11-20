@@ -214,6 +214,60 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
+		private boolean chooseMilk;
+		
+		
+		public void raiseChooseMilk() {
+			synchronized(DrinkStatemachine.this) {
+				inEventQueue.add(
+					new Runnable() {
+						@Override
+						public void run() {
+							chooseMilk = true;
+							singleCycle();
+						}
+					}
+				);
+				runCycle();
+			}
+		}
+		
+		private boolean chooseSirup;
+		
+		
+		public void raiseChooseSirup() {
+			synchronized(DrinkStatemachine.this) {
+				inEventQueue.add(
+					new Runnable() {
+						@Override
+						public void run() {
+							chooseSirup = true;
+							singleCycle();
+						}
+					}
+				);
+				runCycle();
+			}
+		}
+		
+		private boolean chooseIce;
+		
+		
+		public void raiseChooseIce() {
+			synchronized(DrinkStatemachine.this) {
+				inEventQueue.add(
+					new Runnable() {
+						@Override
+						public void run() {
+							chooseIce = true;
+							singleCycle();
+						}
+					}
+				);
+				runCycle();
+			}
+		}
+		
 		private boolean waitCoin;
 		
 		
@@ -286,20 +340,20 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
-		private boolean comfirmCoins;
+		private boolean confirmCoins;
 		
 		
-		public boolean isRaisedComfirmCoins() {
+		public boolean isRaisedConfirmCoins() {
 			synchronized(DrinkStatemachine.this) {
-				return comfirmCoins;
+				return confirmCoins;
 			}
 		}
 		
-		protected void raiseComfirmCoins() {
+		protected void raiseConfirmCoins() {
 			synchronized(DrinkStatemachine.this) {
-				comfirmCoins = true;
+				confirmCoins = true;
 				for (SCInterfaceListener listener : listeners) {
-					listener.onComfirmCoinsRaised();
+					listener.onConfirmCoinsRaised();
 				}
 			}
 		}
@@ -458,6 +512,48 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
+		private boolean myMilk;
+		
+		public synchronized boolean getMyMilk() {
+			synchronized(DrinkStatemachine.this) {
+				return myMilk;
+			}
+		}
+		
+		public void setMyMilk(boolean value) {
+			synchronized(DrinkStatemachine.this) {
+				this.myMilk = value;
+			}
+		}
+		
+		private boolean mySirup;
+		
+		public synchronized boolean getMySirup() {
+			synchronized(DrinkStatemachine.this) {
+				return mySirup;
+			}
+		}
+		
+		public void setMySirup(boolean value) {
+			synchronized(DrinkStatemachine.this) {
+				this.mySirup = value;
+			}
+		}
+		
+		private boolean myIce;
+		
+		public synchronized boolean getMyIce() {
+			synchronized(DrinkStatemachine.this) {
+				return myIce;
+			}
+		}
+		
+		public void setMyIce(boolean value) {
+			synchronized(DrinkStatemachine.this) {
+				this.myIce = value;
+			}
+		}
+		
 		protected void clearEvents() {
 			chooseCoin = false;
 			orderSuccess = false;
@@ -470,6 +566,9 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			isEspresso = false;
 			isTea = false;
 			takeDrink = false;
+			chooseMilk = false;
+			chooseSirup = false;
+			chooseIce = false;
 		}
 		protected void clearOutEvents() {
 		
@@ -477,7 +576,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		initial = false;
 		cancelOrder = false;
 		isActive = false;
-		comfirmCoins = false;
+		confirmCoins = false;
 		cleanMachine = false;
 		bar = false;
 		waterReady = false;
@@ -502,6 +601,9 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		main_region_Customer_r1_coinChosen_r1_comfirmOrder,
 		main_region_Customer_r1_waitPaymentChoice,
 		main_region_Customer_r1_waitDrinkChoice,
+		main_region_Customer_extraIce_waitIce,
+		main_region_Customer_extraSirup_waitSirup,
+		main_region_Customer_extraMilk_waitMilk,
 		main_region_Customer_r2_chosenSlide,
 		main_region_Customer_active_initAll,
 		main_region_Customer_active_active,
@@ -524,23 +626,28 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		main_region_preparation_r1_waiteWater,
 		main_region_preparation_r2_waterHeating,
 		main_region_preparation_r2_waiteCup,
-		main_region_drinkRready,
+		main_region_confirmMilk,
 		main_region_infusion,
 		main_region_removeTeaBag,
 		main_region_Sugar_Water,
 		main_region_Sugar_Water_r1_addSugar,
+		main_region_Sugar_Water_r1_addSirup,
 		main_region_Sugar_Water_r2_addWater,
 		main_region_judge,
+		main_region_prepFinish,
+		main_region_addMilk,
+		main_region_confirmIce,
+		main_region_addIce,
 		$NullState$
 	};
 	
-	private final State[] stateVector = new State[4];
+	private final State[] stateVector = new State[7];
 	
 	private int nextStateIndex;
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[17];
+	private final boolean[] timeEvents = new boolean[21];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -553,7 +660,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		if (timer == null) {
 			throw new IllegalStateException("timer not set.");
 		}
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 7; i++) {
 			stateVector[i] = State.$NullState$;
 		}
 		clearEvents();
@@ -561,6 +668,12 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		sCInterface.setMyCup(false);
 		
 		sCInterface.setTea(false);
+		
+		sCInterface.setMyMilk(false);
+		
+		sCInterface.setMySirup(false);
+		
+		sCInterface.setMyIce(false);
 	}
 	
 	public synchronized void enter() {
@@ -619,6 +732,15 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			case main_region_Customer_r1_waitDrinkChoice:
 				main_region_Customer_r1_waitDrinkChoice_react(true);
 				break;
+			case main_region_Customer_extraIce_waitIce:
+				main_region_Customer_extraIce_waitIce_react(true);
+				break;
+			case main_region_Customer_extraSirup_waitSirup:
+				main_region_Customer_extraSirup_waitSirup_react(true);
+				break;
+			case main_region_Customer_extraMilk_waitMilk:
+				main_region_Customer_extraMilk_waitMilk_react(true);
+				break;
 			case main_region_Customer_r2_chosenSlide:
 				main_region_Customer_r2_chosenSlide_react(true);
 				break;
@@ -670,8 +792,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			case main_region_preparation_r2_waiteCup:
 				main_region_preparation_r2_waiteCup_react(true);
 				break;
-			case main_region_drinkRready:
-				main_region_drinkRready_react(true);
+			case main_region_confirmMilk:
+				main_region_confirmMilk_react(true);
 				break;
 			case main_region_infusion:
 				main_region_infusion_react(true);
@@ -682,11 +804,26 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			case main_region_Sugar_Water_r1_addSugar:
 				main_region_Sugar_Water_r1_addSugar_react(true);
 				break;
+			case main_region_Sugar_Water_r1_addSirup:
+				main_region_Sugar_Water_r1_addSirup_react(true);
+				break;
 			case main_region_Sugar_Water_r2_addWater:
 				main_region_Sugar_Water_r2_addWater_react(true);
 				break;
 			case main_region_judge:
 				main_region_judge_react(true);
+				break;
+			case main_region_prepFinish:
+				main_region_prepFinish_react(true);
+				break;
+			case main_region_addMilk:
+				main_region_addMilk_react(true);
+				break;
+			case main_region_confirmIce:
+				main_region_confirmIce_react(true);
+				break;
+			case main_region_addIce:
+				main_region_addIce_react(true);
 				break;
 			default:
 				// $NullState$
@@ -718,7 +855,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	 * @see IStatemachine#isActive()
 	 */
 	public synchronized boolean isActive() {
-		return stateVector[0] != State.$NullState$||stateVector[1] != State.$NullState$||stateVector[2] != State.$NullState$||stateVector[3] != State.$NullState$;
+		return stateVector[0] != State.$NullState$||stateVector[1] != State.$NullState$||stateVector[2] != State.$NullState$||stateVector[3] != State.$NullState$||stateVector[4] != State.$NullState$||stateVector[5] != State.$NullState$||stateVector[6] != State.$NullState$;
 	}
 	
 	/** 
@@ -768,16 +905,22 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			return stateVector[0] == State.main_region_Customer_r1_waitPaymentChoice;
 		case main_region_Customer_r1_waitDrinkChoice:
 			return stateVector[0] == State.main_region_Customer_r1_waitDrinkChoice;
+		case main_region_Customer_extraIce_waitIce:
+			return stateVector[1] == State.main_region_Customer_extraIce_waitIce;
+		case main_region_Customer_extraSirup_waitSirup:
+			return stateVector[2] == State.main_region_Customer_extraSirup_waitSirup;
+		case main_region_Customer_extraMilk_waitMilk:
+			return stateVector[3] == State.main_region_Customer_extraMilk_waitMilk;
 		case main_region_Customer_r2_chosenSlide:
-			return stateVector[1] == State.main_region_Customer_r2_chosenSlide;
+			return stateVector[4] == State.main_region_Customer_r2_chosenSlide;
 		case main_region_Customer_active_initAll:
-			return stateVector[2] == State.main_region_Customer_active_initAll;
+			return stateVector[5] == State.main_region_Customer_active_initAll;
 		case main_region_Customer_active_active:
-			return stateVector[2] == State.main_region_Customer_active_active;
+			return stateVector[5] == State.main_region_Customer_active_active;
 		case main_region_Customer_myCup_detect:
-			return stateVector[3] == State.main_region_Customer_myCup_detect;
+			return stateVector[6] == State.main_region_Customer_myCup_detect;
 		case main_region_Customer_myCup_hasCup:
-			return stateVector[3] == State.main_region_Customer_myCup_hasCup;
+			return stateVector[6] == State.main_region_Customer_myCup_hasCup;
 		case main_region_preparation:
 			return stateVector[0].ordinal() >= State.
 					main_region_preparation.ordinal()&& stateVector[0].ordinal() <= State.main_region_preparation_r2_waiteCup.ordinal();
@@ -817,8 +960,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			return stateVector[2] == State.main_region_preparation_r2_waterHeating;
 		case main_region_preparation_r2_waiteCup:
 			return stateVector[2] == State.main_region_preparation_r2_waiteCup;
-		case main_region_drinkRready:
-			return stateVector[0] == State.main_region_drinkRready;
+		case main_region_confirmMilk:
+			return stateVector[0] == State.main_region_confirmMilk;
 		case main_region_infusion:
 			return stateVector[0] == State.main_region_infusion;
 		case main_region_removeTeaBag:
@@ -828,10 +971,20 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 					main_region_Sugar_Water.ordinal()&& stateVector[0].ordinal() <= State.main_region_Sugar_Water_r2_addWater.ordinal();
 		case main_region_Sugar_Water_r1_addSugar:
 			return stateVector[0] == State.main_region_Sugar_Water_r1_addSugar;
+		case main_region_Sugar_Water_r1_addSirup:
+			return stateVector[0] == State.main_region_Sugar_Water_r1_addSirup;
 		case main_region_Sugar_Water_r2_addWater:
 			return stateVector[1] == State.main_region_Sugar_Water_r2_addWater;
 		case main_region_judge:
 			return stateVector[0] == State.main_region_judge;
+		case main_region_prepFinish:
+			return stateVector[0] == State.main_region_prepFinish;
+		case main_region_addMilk:
+			return stateVector[0] == State.main_region_addMilk;
+		case main_region_confirmIce:
+			return stateVector[0] == State.main_region_confirmIce;
+		case main_region_addIce:
+			return stateVector[0] == State.main_region_addIce;
 		default:
 			return false;
 		}
@@ -916,6 +1069,18 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		sCInterface.raiseTakeDrink();
 	}
 	
+	public synchronized void raiseChooseMilk() {
+		sCInterface.raiseChooseMilk();
+	}
+	
+	public synchronized void raiseChooseSirup() {
+		sCInterface.raiseChooseSirup();
+	}
+	
+	public synchronized void raiseChooseIce() {
+		sCInterface.raiseChooseIce();
+	}
+	
 	public synchronized boolean isRaisedWaitCoin() {
 		return sCInterface.isRaisedWaitCoin();
 	}
@@ -932,8 +1097,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		return sCInterface.isRaisedIsActive();
 	}
 	
-	public synchronized boolean isRaisedComfirmCoins() {
-		return sCInterface.isRaisedComfirmCoins();
+	public synchronized boolean isRaisedConfirmCoins() {
+		return sCInterface.isRaisedConfirmCoins();
 	}
 	
 	public synchronized boolean isRaisedCleanMachine() {
@@ -980,6 +1145,30 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		sCInterface.setTea(value);
 	}
 	
+	public synchronized boolean getMyMilk() {
+		return sCInterface.getMyMilk();
+	}
+	
+	public synchronized void setMyMilk(boolean value) {
+		sCInterface.setMyMilk(value);
+	}
+	
+	public synchronized boolean getMySirup() {
+		return sCInterface.getMySirup();
+	}
+	
+	public synchronized void setMySirup(boolean value) {
+		sCInterface.setMySirup(value);
+	}
+	
+	public synchronized boolean getMyIce() {
+		return sCInterface.getMyIce();
+	}
+	
+	public synchronized void setMyIce(boolean value) {
+		sCInterface.setMyIce(value);
+	}
+	
 	private void effect_main_region_preparation_r1_espresso_r1_step2_tr0() {
 		exitSequence_main_region_preparation_r1_espresso();
 		enterSequence_main_region_preparation_r1_waiteWater_default();
@@ -994,6 +1183,12 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	/* Entry action for state 'initial'. */
 	private void entryAction_main_region_Customer_r1_initial() {
 		sCInterface.setMyCup(false);
+		
+		sCInterface.setMyMilk(false);
+		
+		sCInterface.setMySirup(false);
+		
+		sCInterface.setMyIce(false);
 	}
 	
 	/* Entry action for state 'active'. */
@@ -1058,29 +1253,49 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		timer.setTimer(this, 11, (1 * 1000), false);
 	}
 	
+	/* Entry action for state 'confirmMilk'. */
+	private void entryAction_main_region_confirmMilk() {
+		timer.setTimer(this, 12, 100, true);
+	}
+	
 	/* Entry action for state 'infusion'. */
 	private void entryAction_main_region_infusion() {
-		timer.setTimer(this, 12, (8 * 1000), false);
+		timer.setTimer(this, 13, (8 * 1000), false);
 	}
 	
 	/* Entry action for state 'removeTeaBag'. */
 	private void entryAction_main_region_removeTeaBag() {
-		timer.setTimer(this, 13, (3 * 1000), false);
+		timer.setTimer(this, 14, (3 * 1000), false);
 	}
 	
 	/* Entry action for state 'addSugar'. */
 	private void entryAction_main_region_Sugar_Water_r1_addSugar() {
-		timer.setTimer(this, 14, (1 * 1000), false);
+		timer.setTimer(this, 15, (1 * 1000), false);
+	}
+	
+	/* Entry action for state 'addSirup'. */
+	private void entryAction_main_region_Sugar_Water_r1_addSirup() {
+		timer.setTimer(this, 16, (1 * 1000), false);
 	}
 	
 	/* Entry action for state 'addWater'. */
 	private void entryAction_main_region_Sugar_Water_r2_addWater() {
-		timer.setTimer(this, 15, (2 * 1000), false);
+		timer.setTimer(this, 17, (2 * 1000), false);
 	}
 	
 	/* Entry action for state 'judge'. */
 	private void entryAction_main_region_judge() {
-		timer.setTimer(this, 16, 100, true);
+		timer.setTimer(this, 18, 100, true);
+	}
+	
+	/* Entry action for state 'addMilk'. */
+	private void entryAction_main_region_addMilk() {
+		timer.setTimer(this, 19, (1 * 1000), false);
+	}
+	
+	/* Entry action for state 'addIce'. */
+	private void entryAction_main_region_addIce() {
+		timer.setTimer(this, 20, (1 * 1000), false);
 	}
 	
 	/* Exit action for state 'active'. */
@@ -1143,34 +1358,57 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		timer.unsetTimer(this, 11);
 	}
 	
+	/* Exit action for state 'confirmMilk'. */
+	private void exitAction_main_region_confirmMilk() {
+		timer.unsetTimer(this, 12);
+	}
+	
 	/* Exit action for state 'infusion'. */
 	private void exitAction_main_region_infusion() {
-		timer.unsetTimer(this, 12);
+		timer.unsetTimer(this, 13);
 	}
 	
 	/* Exit action for state 'removeTeaBag'. */
 	private void exitAction_main_region_removeTeaBag() {
-		timer.unsetTimer(this, 13);
+		timer.unsetTimer(this, 14);
 	}
 	
 	/* Exit action for state 'addSugar'. */
 	private void exitAction_main_region_Sugar_Water_r1_addSugar() {
-		timer.unsetTimer(this, 14);
+		timer.unsetTimer(this, 15);
+	}
+	
+	/* Exit action for state 'addSirup'. */
+	private void exitAction_main_region_Sugar_Water_r1_addSirup() {
+		timer.unsetTimer(this, 16);
 	}
 	
 	/* Exit action for state 'addWater'. */
 	private void exitAction_main_region_Sugar_Water_r2_addWater() {
-		timer.unsetTimer(this, 15);
+		timer.unsetTimer(this, 17);
 	}
 	
 	/* Exit action for state 'judge'. */
 	private void exitAction_main_region_judge() {
-		timer.unsetTimer(this, 16);
+		timer.unsetTimer(this, 18);
+	}
+	
+	/* Exit action for state 'addMilk'. */
+	private void exitAction_main_region_addMilk() {
+		timer.unsetTimer(this, 19);
+	}
+	
+	/* Exit action for state 'addIce'. */
+	private void exitAction_main_region_addIce() {
+		timer.unsetTimer(this, 20);
 	}
 	
 	/* 'default' enter sequence for state Customer */
 	private void enterSequence_main_region_Customer_default() {
 		enterSequence_main_region_Customer_r1_default();
+		enterSequence_main_region_Customer_extraIce_default();
+		enterSequence_main_region_Customer_extraSirup_default();
+		enterSequence_main_region_Customer_extraMilk_default();
 		enterSequence_main_region_Customer_r2_default();
 		enterSequence_main_region_Customer_active_default();
 		enterSequence_main_region_Customer_myCup_default();
@@ -1212,35 +1450,53 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[0] = State.main_region_Customer_r1_waitDrinkChoice;
 	}
 	
+	/* 'default' enter sequence for state waitIce */
+	private void enterSequence_main_region_Customer_extraIce_waitIce_default() {
+		nextStateIndex = 1;
+		stateVector[1] = State.main_region_Customer_extraIce_waitIce;
+	}
+	
+	/* 'default' enter sequence for state waitSirup */
+	private void enterSequence_main_region_Customer_extraSirup_waitSirup_default() {
+		nextStateIndex = 2;
+		stateVector[2] = State.main_region_Customer_extraSirup_waitSirup;
+	}
+	
+	/* 'default' enter sequence for state waitMilk */
+	private void enterSequence_main_region_Customer_extraMilk_waitMilk_default() {
+		nextStateIndex = 3;
+		stateVector[3] = State.main_region_Customer_extraMilk_waitMilk;
+	}
+	
 	/* 'default' enter sequence for state chosenSlide */
 	private void enterSequence_main_region_Customer_r2_chosenSlide_default() {
-		nextStateIndex = 1;
-		stateVector[1] = State.main_region_Customer_r2_chosenSlide;
+		nextStateIndex = 4;
+		stateVector[4] = State.main_region_Customer_r2_chosenSlide;
 	}
 	
 	/* 'default' enter sequence for state initAll */
 	private void enterSequence_main_region_Customer_active_initAll_default() {
-		nextStateIndex = 2;
-		stateVector[2] = State.main_region_Customer_active_initAll;
+		nextStateIndex = 5;
+		stateVector[5] = State.main_region_Customer_active_initAll;
 	}
 	
 	/* 'default' enter sequence for state active */
 	private void enterSequence_main_region_Customer_active_active_default() {
 		entryAction_main_region_Customer_active_active();
-		nextStateIndex = 2;
-		stateVector[2] = State.main_region_Customer_active_active;
+		nextStateIndex = 5;
+		stateVector[5] = State.main_region_Customer_active_active;
 	}
 	
 	/* 'default' enter sequence for state detect */
 	private void enterSequence_main_region_Customer_myCup_detect_default() {
-		nextStateIndex = 3;
-		stateVector[3] = State.main_region_Customer_myCup_detect;
+		nextStateIndex = 6;
+		stateVector[6] = State.main_region_Customer_myCup_detect;
 	}
 	
 	/* 'default' enter sequence for state hasCup */
 	private void enterSequence_main_region_Customer_myCup_hasCup_default() {
-		nextStateIndex = 3;
-		stateVector[3] = State.main_region_Customer_myCup_hasCup;
+		nextStateIndex = 6;
+		stateVector[6] = State.main_region_Customer_myCup_hasCup;
 	}
 	
 	/* 'default' enter sequence for state preparation */
@@ -1353,10 +1609,11 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[2] = State.main_region_preparation_r2_waiteCup;
 	}
 	
-	/* 'default' enter sequence for state drinkRready */
-	private void enterSequence_main_region_drinkRready_default() {
+	/* 'default' enter sequence for state confirmMilk */
+	private void enterSequence_main_region_confirmMilk_default() {
+		entryAction_main_region_confirmMilk();
 		nextStateIndex = 0;
-		stateVector[0] = State.main_region_drinkRready;
+		stateVector[0] = State.main_region_confirmMilk;
 	}
 	
 	/* 'default' enter sequence for state infusion */
@@ -1386,6 +1643,13 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[0] = State.main_region_Sugar_Water_r1_addSugar;
 	}
 	
+	/* 'default' enter sequence for state addSirup */
+	private void enterSequence_main_region_Sugar_Water_r1_addSirup_default() {
+		entryAction_main_region_Sugar_Water_r1_addSirup();
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Sugar_Water_r1_addSirup;
+	}
+	
 	/* 'default' enter sequence for state addWater */
 	private void enterSequence_main_region_Sugar_Water_r2_addWater_default() {
 		entryAction_main_region_Sugar_Water_r2_addWater();
@@ -1398,6 +1662,32 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		entryAction_main_region_judge();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_judge;
+	}
+	
+	/* 'default' enter sequence for state prepFinish */
+	private void enterSequence_main_region_prepFinish_default() {
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_prepFinish;
+	}
+	
+	/* 'default' enter sequence for state addMilk */
+	private void enterSequence_main_region_addMilk_default() {
+		entryAction_main_region_addMilk();
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_addMilk;
+	}
+	
+	/* 'default' enter sequence for state confirmIce */
+	private void enterSequence_main_region_confirmIce_default() {
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_confirmIce;
+	}
+	
+	/* 'default' enter sequence for state addIce */
+	private void enterSequence_main_region_addIce_default() {
+		entryAction_main_region_addIce();
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_addIce;
 	}
 	
 	/* 'default' enter sequence for region main region */
@@ -1413,6 +1703,21 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	/* 'default' enter sequence for region r1 */
 	private void enterSequence_main_region_Customer_r1_coinChosen_r1_default() {
 		react_main_region_Customer_r1_coinChosen_r1__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region extraIce */
+	private void enterSequence_main_region_Customer_extraIce_default() {
+		react_main_region_Customer_extraIce__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region extraSirup */
+	private void enterSequence_main_region_Customer_extraSirup_default() {
+		react_main_region_Customer_extraSirup__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region extraMilk */
+	private void enterSequence_main_region_Customer_extraMilk_default() {
+		react_main_region_Customer_extraMilk__entry_Default();
 	}
 	
 	/* 'default' enter sequence for region r2 */
@@ -1478,6 +1783,9 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	/* Default exit sequence for state Customer */
 	private void exitSequence_main_region_Customer() {
 		exitSequence_main_region_Customer_r1();
+		exitSequence_main_region_Customer_extraIce();
+		exitSequence_main_region_Customer_extraSirup();
+		exitSequence_main_region_Customer_extraMilk();
 		exitSequence_main_region_Customer_r2();
 		exitSequence_main_region_Customer_active();
 		exitSequence_main_region_Customer_myCup();
@@ -1518,36 +1826,54 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[0] = State.$NullState$;
 	}
 	
-	/* Default exit sequence for state chosenSlide */
-	private void exitSequence_main_region_Customer_r2_chosenSlide() {
+	/* Default exit sequence for state waitIce */
+	private void exitSequence_main_region_Customer_extraIce_waitIce() {
 		nextStateIndex = 1;
 		stateVector[1] = State.$NullState$;
 	}
 	
-	/* Default exit sequence for state initAll */
-	private void exitSequence_main_region_Customer_active_initAll() {
+	/* Default exit sequence for state waitSirup */
+	private void exitSequence_main_region_Customer_extraSirup_waitSirup() {
 		nextStateIndex = 2;
 		stateVector[2] = State.$NullState$;
 	}
 	
+	/* Default exit sequence for state waitMilk */
+	private void exitSequence_main_region_Customer_extraMilk_waitMilk() {
+		nextStateIndex = 3;
+		stateVector[3] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state chosenSlide */
+	private void exitSequence_main_region_Customer_r2_chosenSlide() {
+		nextStateIndex = 4;
+		stateVector[4] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state initAll */
+	private void exitSequence_main_region_Customer_active_initAll() {
+		nextStateIndex = 5;
+		stateVector[5] = State.$NullState$;
+	}
+	
 	/* Default exit sequence for state active */
 	private void exitSequence_main_region_Customer_active_active() {
-		nextStateIndex = 2;
-		stateVector[2] = State.$NullState$;
+		nextStateIndex = 5;
+		stateVector[5] = State.$NullState$;
 		
 		exitAction_main_region_Customer_active_active();
 	}
 	
 	/* Default exit sequence for state detect */
 	private void exitSequence_main_region_Customer_myCup_detect() {
-		nextStateIndex = 3;
-		stateVector[3] = State.$NullState$;
+		nextStateIndex = 6;
+		stateVector[6] = State.$NullState$;
 	}
 	
 	/* Default exit sequence for state hasCup */
 	private void exitSequence_main_region_Customer_myCup_hasCup() {
-		nextStateIndex = 3;
-		stateVector[3] = State.$NullState$;
+		nextStateIndex = 6;
+		stateVector[6] = State.$NullState$;
 	}
 	
 	/* Default exit sequence for state preparation */
@@ -1665,10 +1991,12 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		exitAction_main_region_preparation_r2_waiteCup();
 	}
 	
-	/* Default exit sequence for state drinkRready */
-	private void exitSequence_main_region_drinkRready() {
+	/* Default exit sequence for state confirmMilk */
+	private void exitSequence_main_region_confirmMilk() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_confirmMilk();
 	}
 	
 	/* Default exit sequence for state infusion */
@@ -1701,6 +2029,14 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		exitAction_main_region_Sugar_Water_r1_addSugar();
 	}
 	
+	/* Default exit sequence for state addSirup */
+	private void exitSequence_main_region_Sugar_Water_r1_addSirup() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_Sugar_Water_r1_addSirup();
+	}
+	
 	/* Default exit sequence for state addWater */
 	private void exitSequence_main_region_Sugar_Water_r2_addWater() {
 		nextStateIndex = 1;
@@ -1715,6 +2051,34 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[0] = State.$NullState$;
 		
 		exitAction_main_region_judge();
+	}
+	
+	/* Default exit sequence for state prepFinish */
+	private void exitSequence_main_region_prepFinish() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state addMilk */
+	private void exitSequence_main_region_addMilk() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_addMilk();
+	}
+	
+	/* Default exit sequence for state confirmIce */
+	private void exitSequence_main_region_confirmIce() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state addIce */
+	private void exitSequence_main_region_addIce() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_addIce();
 	}
 	
 	/* Default exit sequence for region main region */
@@ -1762,8 +2126,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		case main_region_preparation_r1_waiteWater:
 			exitSequence_main_region_preparation_r1_waiteWater();
 			break;
-		case main_region_drinkRready:
-			exitSequence_main_region_drinkRready();
+		case main_region_confirmMilk:
+			exitSequence_main_region_confirmMilk();
 			break;
 		case main_region_infusion:
 			exitSequence_main_region_infusion();
@@ -1774,16 +2138,31 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		case main_region_Sugar_Water_r1_addSugar:
 			exitSequence_main_region_Sugar_Water_r1_addSugar();
 			break;
+		case main_region_Sugar_Water_r1_addSirup:
+			exitSequence_main_region_Sugar_Water_r1_addSirup();
+			break;
 		case main_region_judge:
 			exitSequence_main_region_judge();
+			break;
+		case main_region_prepFinish:
+			exitSequence_main_region_prepFinish();
+			break;
+		case main_region_addMilk:
+			exitSequence_main_region_addMilk();
+			break;
+		case main_region_confirmIce:
+			exitSequence_main_region_confirmIce();
+			break;
+		case main_region_addIce:
+			exitSequence_main_region_addIce();
 			break;
 		default:
 			break;
 		}
 		
 		switch (stateVector[1]) {
-		case main_region_Customer_r2_chosenSlide:
-			exitSequence_main_region_Customer_r2_chosenSlide();
+		case main_region_Customer_extraIce_waitIce:
+			exitSequence_main_region_Customer_extraIce_waitIce();
 			break;
 		case main_region_preparation_r1_espresso_r1_step2_r2_packBeans:
 			exitSequence_main_region_preparation_r1_espresso_r1_step2_r2_packBeans();
@@ -1796,11 +2175,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		}
 		
 		switch (stateVector[2]) {
-		case main_region_Customer_active_initAll:
-			exitSequence_main_region_Customer_active_initAll();
-			break;
-		case main_region_Customer_active_active:
-			exitSequence_main_region_Customer_active_active();
+		case main_region_Customer_extraSirup_waitSirup:
+			exitSequence_main_region_Customer_extraSirup_waitSirup();
 			break;
 		case main_region_preparation_r2_waterHeating:
 			exitSequence_main_region_preparation_r2_waterHeating();
@@ -1813,6 +2189,33 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		}
 		
 		switch (stateVector[3]) {
+		case main_region_Customer_extraMilk_waitMilk:
+			exitSequence_main_region_Customer_extraMilk_waitMilk();
+			break;
+		default:
+			break;
+		}
+		
+		switch (stateVector[4]) {
+		case main_region_Customer_r2_chosenSlide:
+			exitSequence_main_region_Customer_r2_chosenSlide();
+			break;
+		default:
+			break;
+		}
+		
+		switch (stateVector[5]) {
+		case main_region_Customer_active_initAll:
+			exitSequence_main_region_Customer_active_initAll();
+			break;
+		case main_region_Customer_active_active:
+			exitSequence_main_region_Customer_active_active();
+			break;
+		default:
+			break;
+		}
+		
+		switch (stateVector[6]) {
 		case main_region_Customer_myCup_detect:
 			exitSequence_main_region_Customer_myCup_detect();
 			break;
@@ -1861,9 +2264,42 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		}
 	}
 	
+	/* Default exit sequence for region extraIce */
+	private void exitSequence_main_region_Customer_extraIce() {
+		switch (stateVector[1]) {
+		case main_region_Customer_extraIce_waitIce:
+			exitSequence_main_region_Customer_extraIce_waitIce();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region extraSirup */
+	private void exitSequence_main_region_Customer_extraSirup() {
+		switch (stateVector[2]) {
+		case main_region_Customer_extraSirup_waitSirup:
+			exitSequence_main_region_Customer_extraSirup_waitSirup();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region extraMilk */
+	private void exitSequence_main_region_Customer_extraMilk() {
+		switch (stateVector[3]) {
+		case main_region_Customer_extraMilk_waitMilk:
+			exitSequence_main_region_Customer_extraMilk_waitMilk();
+			break;
+		default:
+			break;
+		}
+	}
+	
 	/* Default exit sequence for region r2 */
 	private void exitSequence_main_region_Customer_r2() {
-		switch (stateVector[1]) {
+		switch (stateVector[4]) {
 		case main_region_Customer_r2_chosenSlide:
 			exitSequence_main_region_Customer_r2_chosenSlide();
 			break;
@@ -1874,7 +2310,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	/* Default exit sequence for region active */
 	private void exitSequence_main_region_Customer_active() {
-		switch (stateVector[2]) {
+		switch (stateVector[5]) {
 		case main_region_Customer_active_initAll:
 			exitSequence_main_region_Customer_active_initAll();
 			break;
@@ -1888,7 +2324,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	/* Default exit sequence for region myCup */
 	private void exitSequence_main_region_Customer_myCup() {
-		switch (stateVector[3]) {
+		switch (stateVector[6]) {
 		case main_region_Customer_myCup_detect:
 			exitSequence_main_region_Customer_myCup_detect();
 			break;
@@ -2013,6 +2449,9 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		case main_region_Sugar_Water_r1_addSugar:
 			exitSequence_main_region_Sugar_Water_r1_addSugar();
 			break;
+		case main_region_Sugar_Water_r1_addSirup:
+			exitSequence_main_region_Sugar_Water_r1_addSirup();
+			break;
 		default:
 			break;
 		}
@@ -2037,6 +2476,21 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	/* Default react sequence for initial entry  */
 	private void react_main_region_Customer_r1_coinChosen_r1__entry_Default() {
 		enterSequence_main_region_Customer_r1_coinChosen_r1_waitCoin_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Customer_extraIce__entry_Default() {
+		enterSequence_main_region_Customer_extraIce_waitIce_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Customer_extraSirup__entry_Default() {
+		enterSequence_main_region_Customer_extraSirup_waitSirup_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Customer_extraMilk__entry_Default() {
+		enterSequence_main_region_Customer_extraMilk_waitMilk_default();
 	}
 	
 	/* Default react sequence for initial entry  */
@@ -2210,7 +2664,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		if (try_transition) {
 			if (sCInterface.chooseDrink) {
 				exitSequence_main_region_Customer_r1_coinChosen_r1_waitCoin();
-				sCInterface.raiseComfirmCoins();
+				sCInterface.raiseConfirmCoins();
 				
 				sCInterface.raiseIsActive();
 				
@@ -2232,7 +2686,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		if (try_transition) {
 			if (sCInterface.chooseDrink) {
 				exitSequence_main_region_Customer_r1_coinChosen_r1_comfirmOrder();
-				sCInterface.raiseComfirmCoins();
+				sCInterface.raiseConfirmCoins();
 				
 				sCInterface.raiseIsActive();
 				
@@ -2298,6 +2752,66 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		return did_transition;
 	}
 	
+	private boolean main_region_Customer_extraIce_waitIce_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.chooseIce) {
+				exitSequence_main_region_Customer_extraIce_waitIce();
+				sCInterface.raiseConfirmCoins();
+				
+				sCInterface.raiseIsActive();
+				
+				sCInterface.setMyIce(true);
+				
+				enterSequence_main_region_Customer_extraIce_waitIce_default();
+			} else {
+				did_transition = false;
+			}
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Customer_extraSirup_waitSirup_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.chooseSirup) {
+				exitSequence_main_region_Customer_extraSirup_waitSirup();
+				sCInterface.raiseConfirmCoins();
+				
+				sCInterface.raiseIsActive();
+				
+				sCInterface.setMySirup(true);
+				
+				enterSequence_main_region_Customer_extraSirup_waitSirup_default();
+			} else {
+				did_transition = false;
+			}
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Customer_extraMilk_waitMilk_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.chooseMilk) {
+				exitSequence_main_region_Customer_extraMilk_waitMilk();
+				sCInterface.raiseConfirmCoins();
+				
+				sCInterface.raiseIsActive();
+				
+				sCInterface.setMyMilk(true);
+				
+				enterSequence_main_region_Customer_extraMilk_waitMilk_default();
+			} else {
+				did_transition = false;
+			}
+		}
+		return did_transition;
+	}
+	
 	private boolean main_region_Customer_r2_chosenSlide_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
@@ -2355,7 +2869,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		if (try_transition) {
 			if (sCInterface.addCup) {
 				exitSequence_main_region_Customer_myCup_detect();
-				sCInterface.raiseComfirmCoins();
+				sCInterface.raiseConfirmCoins();
 				
 				sCInterface.raiseIsActive();
 				
@@ -2704,18 +3218,30 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		return did_transition;
 	}
 	
-	private boolean main_region_drinkRready_react(boolean try_transition) {
+	private boolean main_region_confirmMilk_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.takeDrink) {
-				exitSequence_main_region_drinkRready();
-				sCInterface.raiseCleanMachine();
-				
-				enterSequence_main_region_Customer_default();
+			if (timeEvents[12]) {
+				exitSequence_main_region_confirmMilk();
+				enterSequence_main_region_confirmMilk_default();
 				react();
 			} else {
-				did_transition = false;
+				if (sCInterface.getMyMilk()==false) {
+					exitSequence_main_region_confirmMilk();
+					sCInterface.raisePrepFinish();
+					
+					enterSequence_main_region_prepFinish_default();
+					react();
+				} else {
+					if (sCInterface.getMyMilk()==true) {
+						exitSequence_main_region_confirmMilk();
+						enterSequence_main_region_addMilk_default();
+						react();
+					} else {
+						did_transition = false;
+					}
+				}
 			}
 		}
 		if (did_transition==false) {
@@ -2728,7 +3254,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[12]) {
+			if (timeEvents[13]) {
 				exitSequence_main_region_infusion();
 				sCInterface.raiseBar();
 				
@@ -2748,11 +3274,11 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[13]) {
+			if (timeEvents[14]) {
 				exitSequence_main_region_removeTeaBag();
-				sCInterface.raisePrepFinish();
+				sCInterface.raiseBar();
 				
-				enterSequence_main_region_drinkRready_default();
+				enterSequence_main_region_confirmMilk_default();
 				react();
 			} else {
 				did_transition = false;
@@ -2780,8 +3306,29 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[14]) {
+			if (timeEvents[15]) {
 				exitSequence_main_region_Sugar_Water_r1_addSugar();
+				sCInterface.raiseBar();
+				
+				react_main_region_Sugar_Water_r1__exit_Default();
+			} else {
+				if (sCInterface.getMySirup()==true) {
+					exitSequence_main_region_Sugar_Water_r1_addSugar();
+					enterSequence_main_region_Sugar_Water_r1_addSirup_default();
+				} else {
+					did_transition = false;
+				}
+			}
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Sugar_Water_r1_addSirup_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[16]) {
+				exitSequence_main_region_Sugar_Water_r1_addSirup();
 				sCInterface.raiseBar();
 				
 				react_main_region_Sugar_Water_r1__exit_Default();
@@ -2796,7 +3343,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[15]) {
+			if (timeEvents[17]) {
 				exitSequence_main_region_Sugar_Water_r2_addWater();
 				sCInterface.raiseBar();
 				
@@ -2817,9 +3364,9 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		if (try_transition) {
 			if (sCInterface.getTea()==false) {
 				exitSequence_main_region_judge();
-				sCInterface.raisePrepFinish();
+				sCInterface.raiseBar();
 				
-				enterSequence_main_region_drinkRready_default();
+				enterSequence_main_region_confirmMilk_default();
 				react();
 			} else {
 				if (sCInterface.getTea()==true) {
@@ -2827,14 +3374,106 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 					enterSequence_main_region_infusion_default();
 					react();
 				} else {
-					if (timeEvents[16]) {
+					if (timeEvents[18]) {
 						exitSequence_main_region_judge();
 						enterSequence_main_region_judge_default();
 						react();
 					} else {
-						did_transition = false;
+						if (sCInterface.getTea()==false) {
+							exitSequence_main_region_judge();
+							sCInterface.raiseBar();
+							
+							enterSequence_main_region_confirmIce_default();
+							react();
+						} else {
+							did_transition = false;
+						}
 					}
 				}
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_prepFinish_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.takeDrink) {
+				exitSequence_main_region_prepFinish();
+				sCInterface.raiseCleanMachine();
+				
+				enterSequence_main_region_Customer_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_addMilk_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[19]) {
+				exitSequence_main_region_addMilk();
+				sCInterface.raiseBar();
+				
+				enterSequence_main_region_prepFinish_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_confirmIce_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.getMyIce()==false) {
+				exitSequence_main_region_confirmIce();
+				enterSequence_main_region_confirmMilk_default();
+				react();
+			} else {
+				if (sCInterface.getMyIce()==true) {
+					exitSequence_main_region_confirmIce();
+					enterSequence_main_region_addIce_default();
+					react();
+				} else {
+					did_transition = false;
+				}
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_addIce_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[20]) {
+				exitSequence_main_region_addIce();
+				sCInterface.raiseBar();
+				
+				enterSequence_main_region_confirmMilk_default();
+				react();
+			} else {
+				did_transition = false;
 			}
 		}
 		if (did_transition==false) {
