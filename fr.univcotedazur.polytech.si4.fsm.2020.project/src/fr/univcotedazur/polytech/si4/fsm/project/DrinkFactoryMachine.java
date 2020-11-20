@@ -34,6 +34,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 import fr.univcotedazur.polytech.si4.fsm.project.drink.DrinkStatemachine;
 import fr.univcotedazur.polytech.si4.fsm.project.drink.IDrinkStatemachine.SCInterfaceListener;
@@ -51,26 +54,28 @@ class NFCuser{
 		this.name = name;
 	}
 	
-	//true if he has discount 
-	boolean newNfcPay(int value) {
+	//return the amount he should pay
+	public int newNfcPay(int value) {
 		//TODO 10
-		//TODO 如果大于平均值
+		//TODO 如果大于平均值 正负0
 		if(paidTimes==2) {
 			int discount = paidSum/paidTimes;
 			paidTimes=0;
 			paidSum = 0;
 			if(discount>=value) {
-				return true;
+				return 0;
+			}else {
+				return value - discount;
 			}
 		}else {
 			paidTimes++;
 			paidSum += value;
 		}
-		return false;
+		return value;
 	}
 }
-
-public class DrinkFactoryMachine extends JFrame {
+ 
+public class DrinkFactoryMachine extends JFrame{
 	
 	JLabel messagesToUser;
 	JSlider sugarSlider;
@@ -151,6 +156,7 @@ public class DrinkFactoryMachine extends JFrame {
 
 		void cleanInfos() {
 			initialDrinkButton();
+			initialOptionButton();
 			initialSliders();
 			nfcBiiiipButton.setBackground(Color.DARK_GRAY);
 			myDrink = null;
@@ -216,14 +222,15 @@ public class DrinkFactoryMachine extends JFrame {
 			
 			for(NFCuser nfcuser:NFCusers) {
 				if(nfcuser.name.equals(nfcName)) {
-					boolean discount = nfcuser.newNfcPay(drinkPrice);
-					 
+					int toPay = nfcuser.newNfcPay(drinkPrice); 
+		 			 
 					//TODO
-					if(discount) {
+					if(toPay==0) {
 						drinkPrice = 0;
 						messagesToUser.setText("<html>This is your 11th time using NFC. Your drink is free this time.");
+					}else if(toPay>0) {
+						messagesToUser.setText("<html>This is your 11th time using NFC. You only need to pay 0."+ toPay +"€.");
 					}
-						
 					exist = true;
 					break;
 				}
@@ -749,7 +756,7 @@ public class DrinkFactoryMachine extends JFrame {
             		return;
 
             	optionPrice += 10;
-            	initialOptionButton();
+            	//initialOptionButton();
             	addMilkButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
             }
@@ -767,7 +774,7 @@ public class DrinkFactoryMachine extends JFrame {
             		return;
 
             	optionPrice += 10;
-            	initialOptionButton();
+            	//initialOptionButton();
             	addSirupButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
             }
@@ -785,7 +792,7 @@ public class DrinkFactoryMachine extends JFrame {
             		return;
 
             	optionPrice += 60;
-            	initialOptionButton();
+            	//initialOptionButton();
             	addIceButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
             }
@@ -820,14 +827,34 @@ public class DrinkFactoryMachine extends JFrame {
 				if(startPrepare)
             		return;
 				NfcName.setText("");
-				//TODO theFSM.raiseIsActive();
+				theFSM.raiseChangeText();
 			}
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				//TODO theFSM.raiseIsActive();
+				theFSM.raiseChangeText();
 			}
         });
+	
+		NfcName.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				theFSM.raiseChangeText();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				theFSM.raiseChangeText();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				theFSM.raiseChangeText();
+			}
+			
+		});
+		
 		
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setForeground(Color.WHITE);
@@ -843,7 +870,7 @@ public class DrinkFactoryMachine extends JFrame {
         });
 
 		
-		addIceButton.addMouseListener(new MouseAdapter() {
+		addCupButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(startPrepare)
@@ -861,4 +888,6 @@ public class DrinkFactoryMachine extends JFrame {
 		});
 
 	}
+
+	
 }
