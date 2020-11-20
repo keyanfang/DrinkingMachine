@@ -122,7 +122,7 @@ public class DrinkFactoryMachine extends JFrame{
 	}
 	
 	public void initialSliders() { 
-		sugarSlider.setValue(0);
+		sugarSlider.setValue(1);
 		sizeSlider.setValue(1);
 		temperatureSlider.setValue(2);
 	}
