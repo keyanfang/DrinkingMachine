@@ -253,13 +253,13 @@ public class DrinkFactoryMachine extends JFrame{
 		@Override
 		public void onCleanMachineRaised() {
 			messagesToUser.setText("<html>Machine is cleaned");
-			cleanInfos();
 			sugarSlider.setEnabled(true);
 			sizeSlider.setEnabled(true);
 			temperatureSlider.setEnabled(true);
 			if (myDrink==MyDrink.COFFEE) {
 				coffeeNum = coffeeNum -1;
 				if (coffeeNum==0) {
+					refillButton.setEnabled(true);
 					coffeeButton.setEnabled(false);
 					messagesToUser.setText("<html>Sadly we can't offer you more coffee for now.Please come back later.");
 				}
@@ -268,6 +268,7 @@ public class DrinkFactoryMachine extends JFrame{
 			if (myDrink==MyDrink.TEA) {
 				teaNum = teaNum -1;
 				if (teaNum==0) {
+					refillButton.setEnabled(true);
 					teaButton.setEnabled(false);
 					messagesToUser.setText("<html>Sadly we can't offer you more tea for now.Please come back later.");
 				}
@@ -276,12 +277,14 @@ public class DrinkFactoryMachine extends JFrame{
 			if (myDrink==MyDrink.EXPRESSO) {
 				expressoNum = expressoNum -1;
 				if (expressoNum==0) {
+					refillButton.setEnabled(true);
 					expressoButton.setEnabled(false);
 					messagesToUser.setText("<html>Sadly we can't offer you more expresso for now.Please come back later.");
 				}
 				
 				}
-			
+
+			cleanInfos();
 		}
 
 		@Override
@@ -872,8 +875,6 @@ public class DrinkFactoryMachine extends JFrame{
             	if(startPrepare)
             		return;
 
-            	//initialRefillButton();
-            	refillButton.setBackground(Color.green);
             	coffeeNum=100;
             	teaNum=100;
             	expressoNum=100;
@@ -884,6 +885,7 @@ public class DrinkFactoryMachine extends JFrame{
             	
             }
         });
+		refillButton.setEnabled(false);
 		
 		NfcName = new JTextField(10);
 		NfcName.setEditable(true);
