@@ -323,145 +323,660 @@ public class DrinkFactoryMachine extends JFrame{
 
 		@Override
 		public void onBarRaised() {
-			switch (myDrink) {
-			case COFFEE:
-				if (step==0){				
+			boolean type1=false;
+			boolean type2=false;
+			boolean type3=false;
+			boolean type4=false;
+			boolean type5=false;
+			boolean type6=false;
+			if (sugarSlider.getValue()!=0&&milk==false&&ice==false) {type1=true;}
+			if (sugarSlider.getValue()!=0&&milk==true&&ice==true) {type2=true;}
+			if (sugarSlider.getValue()!=0&&milk==false&&ice==true) {type3=true;}
+			if (sugarSlider.getValue()!=0&&milk==true&&ice==false) {type3=true;}
+			if (sugarSlider.getValue()==0&&milk==false&&ice==true) {type4=true;}
+			if (sugarSlider.getValue()==0&&milk==true&&ice==false) {type4=true;}		
+			if (sugarSlider.getValue()==0&&milk==true&&ice==true) {type5=true;}
+			if (sugarSlider.getValue()==0&&milk==false&&ice==false) {type6=true;}
+			switch(step) {		
+			case 0:
+				if (myDrink == MyDrink.COFFEE&&type1==true) {
+				for (int i=1;i<38;i++) {
+				progressBar.setValue(i);
+						}
+				step = step + 1;
+					}
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=1;i<31;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type3==true) {
 					for (int i=1;i<34;i++) {
-						progressBar.setValue(i);
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==1){				
+				if (myDrink == MyDrink.COFFEE&&type4==true) {
+					for (int i=1;i<34;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type5==true) {
+					for (int i=1;i<31;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type6==true) {
+					for (int i=1;i<38;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				
+				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+					for (int i=1;i<46;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=1;i<39;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=1;i<43;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+					for (int i=1;i<46;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=1;i<39;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=1;i<43;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=1;i<13;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=1;i<12;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=1;i<13;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true) {
+					for (int i=11;i<12;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				break;
+			case 1:
+				if (myDrink == MyDrink.COFFEE&&type1==true) {
+					for (int i=38;i<51;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=31;i<41;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type3==true) {
 					for (int i=34;i<45;i++) {
-						progressBar.setValue(i);
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==2){				
+				if (myDrink == MyDrink.COFFEE && type4==true) {
+					for (int i=34;i<45;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type5==true) {
+					for (int i=31;i<41;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type6==true) {
+					for (int i=38;i<51;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				
+				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+					for (int i=46;i<65;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=39;i<59;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=43;i<55;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+					for (int i=46;i<65;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=39;i<59;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=43;i<55;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=12;i<19;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=13;i<18;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=12;i<19;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true) {
+					for (int i=13;i<18;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				break;
+			case 2:
+				if (myDrink == MyDrink.COFFEE&&type1==true) {
+					for (int i=51;i<76;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=41;i<61;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type3==true) {
 					for (int i=45;i<67;i++) {
-						progressBar.setValue(i);
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==3){				
-					for (int i=67;i<78;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE&&type4==true) {
+					for (int i=45;i<67;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==4){				
-					for (int i=78;i<89;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE&&type5==true) {
+					for (int i=41;i<61;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==5){				
-					for (int i=89;i<100;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE&&type6==true) {
+					for (int i=51;i<76;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==6){				
-					progressBar.setValue(100);
+				
+				
+				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+					for (int i=65;i<83;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=59;i<76;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=55;i<70;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+					for (int i=65;i<83;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=59;i<76;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=55;i<70;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+				}
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=19;i<36;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=18;i<34;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=19;i<36;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true) {
+					for (int i=18;i<34;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				break;
+			case 3:
+				if (myDrink == MyDrink.COFFEE&&type1==true) {
+					for (int i=76;i<88;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=61;i<71;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type3==true) {
+					for (int i=67;i<79;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type4==true) {
+					for (int i=67;i<89;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type5==true) {
+					for (int i=61;i<81;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type6==true) {
+					for (int i=76;i<101;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+					for (int i=83;i<92;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=76;i<84;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=70;i<78;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+					for (int i=83;i<92;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=76;i<84;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=70;i<78;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=36;i<43;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=34;i<40;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=36;i<46;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true) {
+					for (int i=34;i<48;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
 						}
 				break;
 				
-			case EXPRESSO:
-				if (step==0){				
-					for (int i=1;i<45;i++) {
-						progressBar.setValue(i);
+			case 4:
+				if (myDrink == MyDrink.COFFEE&&type1==true) {
+					for (int i=88;i<100;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=71;i<81;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==1){				
-					for (int i=45;i<81;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE&&type3==true) {
+					for (int i=79;i<91;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==2){				
-					for (int i=45;i<67;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE&&type4==true) {
+					for (int i=90;i<101;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==3){				
-					for (int i=81;i<90;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.COFFEE&&type5==true) {
+					for (int i=81;i<91;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==4){				
-					for (int i=90;i<96;i++) {
-						progressBar.setValue(i);
+				
+				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+					for (int i=92;i<101;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=84;i<93;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==5){				
-					for (int i=96;i<100;i++) {
-						progressBar.setValue(i);
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=78;i<86;i++) {
+					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (step==6){				
-					progressBar.setValue(100);
+				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+					for (int i=92;i<100;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=84;i<93;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=78;i<86;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=43;i<49;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=40;i<46;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=46;i<79;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true) {
+					for (int i=48;i<83;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
 						}
 				break;
-			case TEA:if (step==0){				
-				for (int i=1;i<12;i++) {
+			
+			case 5:
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=81;i<91;i++) {
 					progressBar.setValue(i);
+							}
+					step = step + 1;
 						}
-				step = step + 1;
-					}
-			if (step==1){				
-				for (int i=12;i<18;i++) {
+				if (myDrink == MyDrink.COFFEE&&type3==true) {
+					for (int i=91;i<101;i++) {
 					progressBar.setValue(i);
+							}
 						}
-				step = step + 1;
-					}
-			if (step==2){				
-				for (int i=18;i<35;i++) {
+				if (myDrink == MyDrink.COFFEE&&type4==true) {
+					progressBar.setValue(100);
+						}
+				if (myDrink == MyDrink.COFFEE&&type5==true) {
+					for (int i=91;i<101;i++) {
 					progressBar.setValue(i);
+							}
 						}
-				step = step + 1;
-					}
-			if (step==3){				
-				for (int i=35;i<40;i++) {
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=93;i<101;i++) {
 					progressBar.setValue(i);
+							}
 						}
-				step = step + 1;
-					}
-			if (step==4){				
-				for (int i=40;i<45;i++) {
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=86;i<93;i++) {
 					progressBar.setValue(i);
+							}
+					step = step + 1;
 						}
-				step = step + 1;
-					}
-			if (step==5){				
-				for (int i=45;i<82;i++) {
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=93;i<101;i++) {
 					progressBar.setValue(i);
+							}
 						}
-				step = step + 1;
-					}
-			if (step==6){				
-				for (int i=82;i<100;i++) {
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=86;i<93;i++) {
 					progressBar.setValue(i);
+							}
+					step = step + 1;
 						}
-				step = step + 1;
-					}
-					
-			if (step==7){				
-				progressBar.setValue(100);
-					}
-					
-			break;
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=49;i<83;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=46;i<79;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=79;i<96;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true) {
+					for (int i=83;i<101;i++) {
+							}
+					step = step + 1;
+						}
+				break;
+			
+			case 6:
+				if (myDrink == MyDrink.COFFEE&&type2==true) {
+					for (int i=91;i<100;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=93;i<101;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=93;i<101;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.TEA&&type1==true) {
+					for (int i=83;i<100;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=79;i<96;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true) {
+					for (int i=96;i<101;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				break;
+			case 7:
+				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+					for (int i=51;i<76;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+					for (int i=41;i<61;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+					for (int i=45;i<67;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+					for (int i=45;i<67;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+					for (int i=41;i<61;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+					for (int i=51;i<76;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true) {
+					for (int i=96;i<101;i++) {
+					progressBar.setValue(i);
+							}
+						}
+				break;
 			}
-
-			}
+		}
+			
 		
 		
 		@Override
 		public void onPrepFinishRaised() {
+			progressBar.setValue(100);
 			messagesToUser.setText("<html>Your drink is ready");	
 			
 			labelForPictures.addMouseListener(new MouseAdapter() {
