@@ -105,7 +105,7 @@ public class DrinkFactoryMachine extends JFrame{
 	int cupValue;
 	int optionPrice;
 	int step;
-	int coffeeNum=100;
+	int coffeeNum=1;
 	int teaNum=100;
 	int expressoNum=100;
 	boolean startPrepare = false; 
@@ -257,31 +257,6 @@ public class DrinkFactoryMachine extends JFrame{
 			sugarSlider.setEnabled(true);
 			sizeSlider.setEnabled(true);
 			temperatureSlider.setEnabled(true);
-			if (myDrink==MyDrink.COFFEE) {
-				coffeeNum = coffeeNum -1;
-				if (coffeeNum==0) {
-					coffeeButton.setEnabled(false);
-					messagesToUser.setText("<html>Sadly we can't offer you more coffee for now.Please come back later.");
-				}
-				
-				}
-			if (myDrink==MyDrink.TEA) {
-				teaNum = teaNum -1;
-				if (teaNum==0) {
-					teaButton.setEnabled(false);
-					messagesToUser.setText("<html>Sadly we can't offer you more tea for now.Please come back later.");
-				}
-				
-				}
-			if (myDrink==MyDrink.EXPRESSO) {
-				expressoNum = expressoNum -1;
-				if (expressoNum==0) {
-					expressoButton.setEnabled(false);
-					messagesToUser.setText("<html>Sadly we can't offer you more expresso for now.Please come back later.");
-				}
-				
-				}
-			
 		}
 
 		@Override
@@ -446,7 +421,33 @@ public class DrinkFactoryMachine extends JFrame{
 		
 		@Override
 		public void onPrepFinishRaised() {
-			messagesToUser.setText("<html>Your drink is ready");	
+			
+			if (myDrink==MyDrink.COFFEE) {
+				coffeeNum = coffeeNum -1;
+				if (coffeeNum==0) {
+					coffeeButton.setEnabled(false);
+					messagesToUser.setText("<html>Your drink is ready and sadly we can't offer you more coffee for now.Please come back later.");
+				}
+				else {messagesToUser.setText("<html>Your drink is ready");}
+				}
+			if (myDrink==MyDrink.TEA) {
+				teaNum = teaNum -1;
+				if (teaNum==0) {
+					teaButton.setEnabled(false);
+					messagesToUser.setText("<html>Your drink is ready and sadly we can't offer you more tea for now.Please come back later.");
+				}
+				else {messagesToUser.setText("<html>Your drink is ready");}
+				}
+			if (myDrink==MyDrink.EXPRESSO) {
+				expressoNum = expressoNum -1;
+				if (expressoNum==0) {
+					expressoButton.setEnabled(false);
+					messagesToUser.setText("<html>Your drink is ready and sadly we can't offer you more expresso for now.Please come back later.");
+				}
+				else {messagesToUser.setText("<html>Your drink is ready");}
+				}
+			
+			
 			
 			labelForPictures.addMouseListener(new MouseAdapter() {
 				@Override
@@ -877,11 +878,6 @@ public class DrinkFactoryMachine extends JFrame{
             	coffeeNum=100;
             	teaNum=100;
             	expressoNum=100;
-            	coffeeButton.setEnabled(true);
-            	teaButton.setEnabled(true);
-            	expressoButton.setEnabled(true);
-            	messagesToUser.setText("<html>We've refilled the machine and all kinds of drink are avaliable now!");
-            	
             }
         });
 		

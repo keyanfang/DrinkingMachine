@@ -880,7 +880,7 @@ public class DrinkFactoryMachine extends JFrame{
             	coffeeButton.setEnabled(true);
             	teaButton.setEnabled(true);
             	expressoButton.setEnabled(true);
-            	messagesToUser.setText("<html>We've refilled the machine and all kinds of drink are avaliable now!");
+            	messagesToUser.setText("<html>We've refilled the machine and every drink is avaliable now!");
             	
             }
         });
