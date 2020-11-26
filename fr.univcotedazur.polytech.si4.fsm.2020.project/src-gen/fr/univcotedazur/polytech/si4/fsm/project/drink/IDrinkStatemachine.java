@@ -66,6 +66,8 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public boolean isRaisedNFCSuccess();
 		
+		public boolean isRaisedCheckIngredients();
+		
 		public boolean getMyCup();
 		
 		public void setMyCup(boolean value);
@@ -103,6 +105,7 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		public void onPrepStartRaised();
 		public void onPrepFinishRaised();
 		public void onNFCSuccessRaised();
+		public void onCheckIngredientsRaised();
 		}
 	
 	public SCInterface getSCInterface();

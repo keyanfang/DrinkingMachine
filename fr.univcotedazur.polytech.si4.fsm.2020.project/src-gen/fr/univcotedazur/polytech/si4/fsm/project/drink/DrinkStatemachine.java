@@ -502,6 +502,24 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
+		private boolean checkIngredients;
+		
+		
+		public boolean isRaisedCheckIngredients() {
+			synchronized(DrinkStatemachine.this) {
+				return checkIngredients;
+			}
+		}
+		
+		protected void raiseCheckIngredients() {
+			synchronized(DrinkStatemachine.this) {
+				checkIngredients = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onCheckIngredientsRaised();
+				}
+			}
+		}
+		
 		private boolean myCup;
 		
 		public synchronized boolean getMyCup() {
@@ -603,6 +621,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		prepStart = false;
 		prepFinish = false;
 		nFCSuccess = false;
+		checkIngredients = false;
 		}
 		
 	}
@@ -1138,6 +1157,10 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	public synchronized boolean isRaisedNFCSuccess() {
 		return sCInterface.isRaisedNFCSuccess();
+	}
+	
+	public synchronized boolean isRaisedCheckIngredients() {
+		return sCInterface.isRaisedCheckIngredients();
 	}
 	
 	public synchronized boolean getMyCup() {
@@ -3411,6 +3434,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			if (sCInterface.takeDrink) {
 				exitSequence_main_region_prepFinish();
 				sCInterface.raiseCleanMachine();
+				
+				sCInterface.raiseCheckIngredients();
 				
 				enterSequence_main_region_Customer_default();
 				react();

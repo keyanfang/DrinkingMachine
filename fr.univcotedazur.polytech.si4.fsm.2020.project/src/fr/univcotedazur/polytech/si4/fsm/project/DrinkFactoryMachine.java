@@ -46,6 +46,10 @@ enum MyDrink{
 	COFFEE,EXPRESSO,TEA;
 }
 
+enum Lack{
+	COFFEE,EXPRESSO,TEA,SUGAR,SIRUP,MILK,ICE;
+}
+
 class NFCuser{
 	int paidTimes=0;
 	int paidSum=0;
@@ -98,6 +102,7 @@ public class DrinkFactoryMachine extends JFrame{
 	JProgressBar progressBar;
 	
 	MyDrink myDrink;
+	Lack lack;
 	boolean byNFC;
 	int drinkPrice; 
 	int paidCoinsValue;
@@ -123,24 +128,24 @@ public class DrinkFactoryMachine extends JFrame{
 		coffeeButton.setBackground(Color.DARK_GRAY);
 		expressoButton.setBackground(Color.DARK_GRAY);
 		teaButton.setBackground(Color.DARK_GRAY);
-		addMilkButton.setEnabled(true);
-		addSirupButton.setEnabled(true);
-		addIceButton.setEnabled(true);
 	}
 	
 	public void initialOptionButton() {
 		addMilkButton.setBackground(Color.DARK_GRAY);
 		addSirupButton.setBackground(Color.DARK_GRAY);
 		addIceButton.setBackground(Color.DARK_GRAY);
-		sugarSlider.setEnabled(true);
-		sizeSlider.setEnabled(true);
-		temperatureSlider.setEnabled(true);
+		addMilkButton.setEnabled(true);
+		addSirupButton.setEnabled(true);
+		addIceButton.setEnabled(true);
 	}
 	
 	public void initialSliders() { 
 		sugarSlider.setValue(1);
 		sizeSlider.setValue(1);
 		temperatureSlider.setValue(2);
+		sugarSlider.setEnabled(true);
+		sizeSlider.setEnabled(true);
+		temperatureSlider.setEnabled(true);
 	}
 	
 	public void myWait(int myTime) { 
@@ -171,6 +176,7 @@ public class DrinkFactoryMachine extends JFrame{
 		}
 
 		void cleanInfos() {
+			//TODO
 			initialDrinkButton();
 			initialOptionButton();
 			initialSliders();
@@ -270,63 +276,23 @@ public class DrinkFactoryMachine extends JFrame{
 		@Override
 		public void onCleanMachineRaised() {
 			messagesToUser.setText("<html>Machine is cleaned");
+			
 			if (myDrink==MyDrink.COFFEE) {
 				coffeeNum = coffeeNum -1;
-				if (coffeeNum==0) {
-					refillButton.setEnabled(true);
-					coffeeButton.setEnabled(false);
-					messagesToUser.setText("<html>Sadly we can't offer you more coffee for now.Please come back later.");
-					refillButton.setEnabled(true);
-				}
-				
-				}
+			}
 			if (myDrink==MyDrink.TEA) {
 				teaNum = teaNum -1;
-				if (teaNum==0) {
-					refillButton.setEnabled(true);
-					teaButton.setEnabled(false);
-					messagesToUser.setText("<html>Sadly we can't offer you more tea for now.Please come back later.");
-					refillButton.setEnabled(true);
-				}
-				
-				}
+			}
 			if (myDrink==MyDrink.EXPRESSO) {
 				expressoNum = expressoNum -1;
-				if (expressoNum==0) {
-					refillButton.setEnabled(true);
-					expressoButton.setEnabled(false);
-					messagesToUser.setText("<html>Sadly we can't offer you more expresso for now.Please come back later.");
-					refillButton.setEnabled(true);
-				}
-				
-				}
+			}
 			if (sirup=true) {
 				sirupNum=sirupNum - sugarSlider.getValue();
+			}else {
+				sugarNum=sugarNum - sugarSlider.getValue();
 			}
-			else {sugarNum=sugarNum - sugarSlider.getValue();}
 			if (milk==true) {milkNum=milkNum-1;}
 			if (ice ==true) {iceNum=iceNum-1;}
-			if (sugarNum==0) {
-				messagesToUser.setText("<html>Sadly we can't offer you sugar for now.Please come back later.");
-				sugarSlider.setEnabled(false);
-				refillButton.setEnabled(true);
-			}
-			if (sirupNum==0) {
-				messagesToUser.setText("<html>Sadly we can't offer you sirup for now.Please come back later.");
-				addSirupButton.setEnabled(false);
-				refillButton.setEnabled(true);
-			}
-			if (milkNum==0) {
-				messagesToUser.setText("<html>Sadly we can't offer you milk for now.Please come back later.");
-				addMilkButton.setEnabled(false);
-				refillButton.setEnabled(true);
-			}
-			if (iceNum==0) {
-				messagesToUser.setText("<html>Sadly we can't offer you ice for now.Please come back later.");
-				addIceButton.setEnabled(false);
-				refillButton.setEnabled(true);
-			}
-
 			
 			cleanInfos();
 		}
@@ -525,6 +491,56 @@ public class DrinkFactoryMachine extends JFrame{
 				e.printStackTrace();
 			}
 			labelForPictures.setIcon(new ImageIcon(myPicture));
+		}
+
+		@Override
+		public void onCheckIngredientsRaised() {
+			// TODO Auto-generated method stub
+			if (coffeeNum==0) {
+				refillButton.setEnabled(true);
+				coffeeButton.setEnabled(false);
+				messagesToUser.setText("<html>Sadly we can't offer you more coffee for now.");	
+				lack = Lack.COFFEE;
+			}
+
+			if (teaNum==0) {
+				refillButton.setEnabled(true);
+				teaButton.setEnabled(false);
+				messagesToUser.setText("<html>Sadly we can't offer you more tea for now.");	
+				lack = Lack.TEA;
+			}
+	
+			if (expressoNum==0) {
+				refillButton.setEnabled(true);
+				expressoButton.setEnabled(false);
+				messagesToUser.setText("<html>Sadly we can't offer you more expresso for now.");	
+				lack = Lack.EXPRESSO;
+			}
+
+			if (sugarNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you sugar for now.");
+				sugarSlider.setEnabled(false);
+				refillButton.setEnabled(true);
+				lack = Lack.SUGAR;
+			}
+			if (sirupNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you sirup for now.");
+				addSirupButton.setEnabled(false);
+				refillButton.setEnabled(true);
+				lack = Lack.SIRUP;
+			}
+			if (milkNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you milk for now.");
+				addMilkButton.setEnabled(false);
+				refillButton.setEnabled(true);
+				lack = Lack.MILK;
+			}
+			if (iceNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you ice for now.");
+				addIceButton.setEnabled(false);
+				refillButton.setEnabled(true);
+				lack = Lack.ICE;
+			}
 		}
 
 	}
@@ -886,7 +902,7 @@ public class DrinkFactoryMachine extends JFrame{
 
             	optionPrice += 10;
             	addSirupButton.setBackground(Color.green);
-            	theFSM.raiseChooseMilk();
+            	theFSM.raiseChooseSirup();
             	sirup=true;
             	sugarSlider.setEnabled(true);
             }
@@ -944,15 +960,11 @@ public class DrinkFactoryMachine extends JFrame{
             	iceNum=500;
             	sirupNum=500;
             	milkNum=1000;
-            	coffeeButton.setEnabled(true);
-            	teaButton.setEnabled(true);
-            	expressoButton.setEnabled(true);
-            	sugarSlider.setEnabled(true);
-            	addSirupButton.setEnabled(true);
-            	addMilkButton.setEnabled(true);
-            	addIceButton.setEnabled(true);
-            	messagesToUser.setText("<html>We've refilled the machine and all kinds of drink are avaliable now!");
             	
+            	initialDrinkButton();
+            	initialOptionButton();
+            	sugarSlider.setEnabled(true);
+            	messagesToUser.setText("<html>We've refilled the machine and all kinds of drink are avaliable now!");
             }
         });
 		refillButton.setEnabled(false);
