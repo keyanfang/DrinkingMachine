@@ -108,6 +108,13 @@ public class DrinkFactoryMachine extends JFrame{
 	int coffeeNum=100;
 	int teaNum=100;
 	int expressoNum=100;
+	int sugarNum=1000;
+	int sirupNum=500;
+	int milkNum=1000;
+	int iceNum=500;
+	boolean sirup=false;
+	boolean ice=false;
+	boolean milk=false;
 	boolean startPrepare = false; 
 	List<NFCuser> NFCusers = new ArrayList<>(); 	
 	
@@ -262,6 +269,7 @@ public class DrinkFactoryMachine extends JFrame{
 					refillButton.setEnabled(true);
 					coffeeButton.setEnabled(false);
 					messagesToUser.setText("<html>Sadly we can't offer you more coffee for now.Please come back later.");
+					refillButton.setEnabled(true);
 				}
 				
 				}
@@ -271,6 +279,7 @@ public class DrinkFactoryMachine extends JFrame{
 					refillButton.setEnabled(true);
 					teaButton.setEnabled(false);
 					messagesToUser.setText("<html>Sadly we can't offer you more tea for now.Please come back later.");
+					refillButton.setEnabled(true);
 				}
 				
 				}
@@ -280,10 +289,38 @@ public class DrinkFactoryMachine extends JFrame{
 					refillButton.setEnabled(true);
 					expressoButton.setEnabled(false);
 					messagesToUser.setText("<html>Sadly we can't offer you more expresso for now.Please come back later.");
+					refillButton.setEnabled(true);
 				}
 				
 				}
+			if (sirup=true) {
+				sirupNum=sirupNum - sugarSlider.getValue();
+			}
+			else {sugarNum=sugarNum - sugarSlider.getValue();}
+			if (milk==true) {milkNum=milkNum-1;}
+			if (ice ==true) {iceNum=iceNum-1;}
+			if (sugarNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you sugar for now.Please come back later.");
+				sugarSlider.setEnabled(false);
+				refillButton.setEnabled(true);
+			}
+			if (sirupNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you sirup for now.Please come back later.");
+				addSirupButton.setEnabled(false);
+				refillButton.setEnabled(true);
+			}
+			if (milkNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you milk for now.Please come back later.");
+				addMilkButton.setEnabled(false);
+				refillButton.setEnabled(true);
+			}
+			if (iceNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you ice for now.Please come back later.");
+				addIceButton.setEnabled(false);
+				refillButton.setEnabled(true);
+			}
 
+			
 			cleanInfos();
 		}
 
@@ -809,6 +846,7 @@ public class DrinkFactoryMachine extends JFrame{
             	//initialOptionButton();
             	addMilkButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
+            	milk=true;
             }
         });
 		
@@ -827,6 +865,8 @@ public class DrinkFactoryMachine extends JFrame{
             	//initialOptionButton();
             	addSirupButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
+            	sirup=true;
+            	sugarSlider.setEnabled(true);
             }
         });
 		
@@ -844,7 +884,8 @@ public class DrinkFactoryMachine extends JFrame{
             	optionPrice += 60;
             	//initialOptionButton();
             	addIceButton.setBackground(Color.green);
-            	theFSM.raiseChooseMilk();
+            	theFSM.raiseChooseIce();
+            	ice=true;
             }
         });
 
@@ -878,9 +919,17 @@ public class DrinkFactoryMachine extends JFrame{
             	coffeeNum=100;
             	teaNum=100;
             	expressoNum=100;
+            	sugarNum=1000;
+            	iceNum=500;
+            	sirupNum=500;
+            	milkNum=1000;
             	coffeeButton.setEnabled(true);
             	teaButton.setEnabled(true);
             	expressoButton.setEnabled(true);
+            	sugarSlider.setEnabled(true);
+            	addSirupButton.setEnabled(true);
+            	addMilkButton.setEnabled(true);
+            	addIceButton.setEnabled(true);
             	messagesToUser.setText("<html>We've refilled the machine and all kinds of drink are avaliable now!");
             	
             }
