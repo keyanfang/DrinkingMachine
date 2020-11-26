@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Timer;
@@ -122,12 +123,18 @@ public class DrinkFactoryMachine extends JFrame{
 		coffeeButton.setBackground(Color.DARK_GRAY);
 		expressoButton.setBackground(Color.DARK_GRAY);
 		teaButton.setBackground(Color.DARK_GRAY);
+		addMilkButton.setEnabled(true);
+		addSirupButton.setEnabled(true);
+		addIceButton.setEnabled(true);
 	}
 	
 	public void initialOptionButton() {
 		addMilkButton.setBackground(Color.DARK_GRAY);
 		addSirupButton.setBackground(Color.DARK_GRAY);
 		addIceButton.setBackground(Color.DARK_GRAY);
+		sugarSlider.setEnabled(true);
+		sizeSlider.setEnabled(true);
+		temperatureSlider.setEnabled(true);
 	}
 	
 	public void initialSliders() { 
@@ -170,6 +177,7 @@ public class DrinkFactoryMachine extends JFrame{
 			nfcBiiiipButton.setBackground(Color.DARK_GRAY);
 			myDrink = null;
 			drinkPrice = 0;
+			optionPrice = 0;
 			paidCoinsValue = 0;
 			cupValue = 0;
 			refund = 0;
@@ -209,7 +217,7 @@ public class DrinkFactoryMachine extends JFrame{
 		public void onConfirmCoinsRaised() {
 			if(drinkPrice==0)
 				return;
-			refund = paidCoinsValue + cupValue - drinkPrice;
+			refund = paidCoinsValue+cupValue - optionPrice-drinkPrice;
 			if(refund>0) {
 				messagesToUser.setText("<html>Payment is successful, start to make drinks<br>You will get a refund of 0."+refund+"€");
 				theFSM.raiseOrderSuccess();
@@ -217,7 +225,9 @@ public class DrinkFactoryMachine extends JFrame{
 				messagesToUser.setText("<html>Payment is successful, start to make drinks");
 				theFSM.raiseOrderSuccess();
 			}else if(refund<0) {
-				messagesToUser.setText("<html>You still need to pay "+(-0.01*refund)+"€");
+				DecimalFormat df = new DecimalFormat( "0.00");  
+				String toPay = df.format(-0.01*refund);
+				messagesToUser.setText("<html>You still need to pay "+toPay+"€");
 			}
 		}
 		
@@ -260,9 +270,6 @@ public class DrinkFactoryMachine extends JFrame{
 		@Override
 		public void onCleanMachineRaised() {
 			messagesToUser.setText("<html>Machine is cleaned");
-			sugarSlider.setEnabled(true);
-			sizeSlider.setEnabled(true);
-			temperatureSlider.setEnabled(true);
 			if (myDrink==MyDrink.COFFEE) {
 				coffeeNum = coffeeNum -1;
 				if (coffeeNum==0) {
@@ -327,7 +334,6 @@ public class DrinkFactoryMachine extends JFrame{
 		@Override
 		public void onPrepStartRaised() {
 			startPrepare = true;
-			NfcName.setEditable(false);
 			switch(myDrink) {
 				case COFFEE:
 					theFSM.raiseIsCoffee();
@@ -339,9 +345,13 @@ public class DrinkFactoryMachine extends JFrame{
 					theFSM.raiseIsTea();
 					break;
 			} 
+			NfcName.setEditable(false);
 			sugarSlider.setEnabled(false);
 			sizeSlider.setEnabled(false);
 			temperatureSlider.setEnabled(false);
+			addMilkButton.setEnabled(false);
+			addSirupButton.setEnabled(false);
+			addIceButton.setEnabled(false);
 		}
 
 
@@ -594,7 +604,9 @@ public class DrinkFactoryMachine extends JFrame{
             	myDrink = MyDrink.COFFEE;
             	drinkPrice = 35;
             	initialDrinkButton();
-            	messagesToUser.setText("<html>Please pay 0.35€ for coffee");
+            	DecimalFormat df = new DecimalFormat( "0.00");  
+				String toPay = df.format(-0.01*(drinkPrice+optionPrice));
+            	messagesToUser.setText("<html>Please pay "+toPay+"€ for your coffee");
             	coffeeButton.setBackground(Color.green);
             	theFSM.raiseChooseDrink();
             }
@@ -613,7 +625,9 @@ public class DrinkFactoryMachine extends JFrame{
             	initialDrinkButton();
             	myDrink = MyDrink.EXPRESSO;
             	drinkPrice = 50;
-            	messagesToUser.setText("<html>Please pay 0.50€ for expresso");
+            	DecimalFormat df = new DecimalFormat( "0.00");  
+				String toPay = df.format(-0.01*(drinkPrice+optionPrice));
+            	messagesToUser.setText("<html>Please pay "+toPay+"€ for your expresso");
             	expressoButton.setBackground(Color.green);
             	theFSM.raiseChooseDrink();
             }
@@ -632,7 +646,9 @@ public class DrinkFactoryMachine extends JFrame{
             	myDrink = MyDrink.TEA;
             	initialDrinkButton();
             	drinkPrice = 40;
-            	messagesToUser.setText("<html>Please pay 0.40€ for tea");
+            	DecimalFormat df = new DecimalFormat( "0.00");  
+				String toPay = df.format(-0.01*(drinkPrice+optionPrice));
+            	messagesToUser.setText("<html>Please pay "+toPay+"€ for your tea");
             	teaButton.setBackground(Color.green);
             	theFSM.raiseChooseDrink();
             }
@@ -667,6 +683,14 @@ public class DrinkFactoryMachine extends JFrame{
 		      public void stateChanged(ChangeEvent event) {
 		    	  if(startPrepare)
 	            		return;
+				  //TODO
+		    	  if(sugarSlider.getValue()==0) {
+		    		  
+		    		  addSirupButton.setEnabled(false); 
+		    	  }else {
+		    		  addSirupButton.setEnabled(true);
+		    	  }
+		    	  
 		    	  theFSM.raiseChooseSlide();
 		      }
 		});
@@ -843,7 +867,6 @@ public class DrinkFactoryMachine extends JFrame{
             		return;
 
             	optionPrice += 10;
-            	//initialOptionButton();
             	addMilkButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
             	milk=true;
@@ -862,7 +885,6 @@ public class DrinkFactoryMachine extends JFrame{
             		return;
 
             	optionPrice += 10;
-            	//initialOptionButton();
             	addSirupButton.setBackground(Color.green);
             	theFSM.raiseChooseMilk();
             	sirup=true;
@@ -870,10 +892,10 @@ public class DrinkFactoryMachine extends JFrame{
             }
         });
 		
-		addIceButton = new JButton("Add ice");
+		addIceButton = new JButton("<html>Add vanilla<br> ice cream");
 		addIceButton.setForeground(Color.WHITE);
 		addIceButton.setBackground(Color.DARK_GRAY);
-		addIceButton.setBounds(45, 486, 96, 25);
+		addIceButton.setBounds(45, 486, 96, 29);
 		contentPane.add(addIceButton); 
 		addIceButton.addActionListener(new ActionListener() {
             @Override
@@ -882,7 +904,6 @@ public class DrinkFactoryMachine extends JFrame{
             		return;
 
             	optionPrice += 60;
-            	//initialOptionButton();
             	addIceButton.setBackground(Color.green);
             	theFSM.raiseChooseIce();
             	ice=true;
