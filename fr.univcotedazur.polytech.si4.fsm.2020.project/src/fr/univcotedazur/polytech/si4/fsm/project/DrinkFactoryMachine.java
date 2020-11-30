@@ -378,37 +378,73 @@ public class DrinkFactoryMachine extends JFrame{
 					step = step + 1;
 						}
 				
-				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type1==true&&temperatureSlider.getValue()<2) {
+					for (int i=1;i<40;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true&&temperatureSlider.getValue()<2) {
+					for (int i=1;i<30;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true&&temperatureSlider.getValue()<2) {
+					for (int i=1;i<35;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true&&temperatureSlider.getValue()<2) {
+					for (int i=1;i<40;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true&&temperatureSlider.getValue()<2) {
+					for (int i=1;i<30;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true&&temperatureSlider.getValue()<2) {
+					for (int i=1;i<35;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true&&temperatureSlider.getValue()>=2) {
+					for (int i=1;i<40;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true&&temperatureSlider.getValue()>=2) {
+					for (int i=1;i<30;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true&&temperatureSlider.getValue()>=2) {
+					for (int i=1;i<35;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true&&temperatureSlider.getValue()>=2) {
 					for (int i=1;i<46;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type5==true&&temperatureSlider.getValue()>=2) {
 					for (int i=1;i<39;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
-					for (int i=1;i<43;i++) {
-					progressBar.setValue(i);
-							}
-					step = step + 1;
-						}
-				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
-					for (int i=1;i<46;i++) {
-					progressBar.setValue(i);
-							}
-					step = step + 1;
-						}
-				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
-					for (int i=1;i<39;i++) {
-					progressBar.setValue(i);
-							}
-					step = step + 1;
-						}
-				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type6==true&&temperatureSlider.getValue()>=2) {
 					for (int i=1;i<43;i++) {
 					progressBar.setValue(i);
 							}
@@ -477,37 +513,73 @@ public class DrinkFactoryMachine extends JFrame{
 					step = step + 1;
 						}
 				
-				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type1==true&&temperatureSlider.getValue()<2) {
+					for (int i=40;i<65;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type2==true&&temperatureSlider.getValue()<2) {
+					for (int i=30;i<59;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type3==true&&temperatureSlider.getValue()<2) {
+					for (int i=35;i<55;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type4==true&&temperatureSlider.getValue()<2) {
+					for (int i=40;i<65;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type5==true&&temperatureSlider.getValue()<2) {
+					for (int i=30;i<59;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type6==true&&temperatureSlider.getValue()<2) {
+					for (int i=35;i<55;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.EXPRESSO&&type1==true&&temperatureSlider.getValue()>=2) {
 					for (int i=46;i<65;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type2==true&&temperatureSlider.getValue()>=2) {
 					for (int i=39;i<59;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type3==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type3==true&&temperatureSlider.getValue()>=2) {
 					for (int i=43;i<55;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type4==true&&temperatureSlider.getValue()>=2) {
 					for (int i=46;i<65;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type5==true&&temperatureSlider.getValue()>=2) {
 					for (int i=39;i<59;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
+				if (myDrink == MyDrink.EXPRESSO&&type6==true&&temperatureSlider.getValue()>=2) {
 					for (int i=43;i<55;i++) {
 					progressBar.setValue(i);
 							}
@@ -539,37 +611,73 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				break;
 			case 2:
-				if (myDrink == MyDrink.COFFEE&&type1==true) {
+				if (myDrink == MyDrink.COFFEE&&type1==true&&temperatureSlider.getValue()<2) {
+					for (int i=51;i<70;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type2==true&&temperatureSlider.getValue()<2) {
+					for (int i=41;i<55;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type3==true&&temperatureSlider.getValue()<2) {
+					for (int i=45;i<62;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type4==true&&temperatureSlider.getValue()<2) {
+					for (int i=45;i<60;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type5==true&&temperatureSlider.getValue()<2) {
+					for (int i=41;i<53;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type6==true&&temperatureSlider.getValue()<2) {
+					for (int i=51;i<70;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type1==true&&temperatureSlider.getValue()>=2) {
 					for (int i=51;i<76;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type2==true) {
+				if (myDrink == MyDrink.COFFEE&&type2==true&&temperatureSlider.getValue()>=2) {
 					for (int i=41;i<61;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type3==true) {
+				if (myDrink == MyDrink.COFFEE&&type3==true&&temperatureSlider.getValue()>=2) {
 					for (int i=45;i<67;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type4==true) {
+				if (myDrink == MyDrink.COFFEE&&type4==true&&temperatureSlider.getValue()>=2) {
 					for (int i=45;i<67;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type5==true) {
+				if (myDrink == MyDrink.COFFEE&&type5==true&&temperatureSlider.getValue()>=2) {
 					for (int i=41;i<61;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type6==true) {
+				if (myDrink == MyDrink.COFFEE&&type6==true&&temperatureSlider.getValue()>=2) {
 					for (int i=51;i<76;i++) {
 					progressBar.setValue(i);
 							}
@@ -613,25 +721,50 @@ public class DrinkFactoryMachine extends JFrame{
 							}
 					step = step + 1;
 				}
-				if (myDrink == MyDrink.TEA&&type1==true) {
+				if (myDrink == MyDrink.TEA&&type1==true&&temperatureSlider.getValue()<2) {
+					for (int i=19;i<30;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true&&temperatureSlider.getValue()<2) {
+					for (int i=18;i<28;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true&&temperatureSlider.getValue()<2) {
+					for (int i=19;i<30;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true&&temperatureSlider.getValue()<2) {
+					for (int i=18;i<28;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				
+				if (myDrink == MyDrink.TEA&&type1==true&&temperatureSlider.getValue()>=2) {
 					for (int i=19;i<36;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type3==true) {
+				if (myDrink == MyDrink.TEA&&type3==true&&temperatureSlider.getValue()>=2) {
 					for (int i=18;i<34;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type4==true) {
+				if (myDrink == MyDrink.TEA&&type4==true&&temperatureSlider.getValue()>=2) {
 					for (int i=19;i<36;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type6==true) {
+				if (myDrink == MyDrink.TEA&&type6==true&&temperatureSlider.getValue()>=2) {
 					for (int i=18;i<34;i++) {
 					progressBar.setValue(i);
 							}
@@ -639,42 +772,79 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				break;
 			case 3:
-				if (myDrink == MyDrink.COFFEE&&type1==true) {
+				if (myDrink == MyDrink.COFFEE&&type1==true&&temperatureSlider.getValue()<2) {
+					for (int i=70;i<88;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type2==true&&temperatureSlider.getValue()<2) {
+					for (int i=55;i<71;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type3==true&&temperatureSlider.getValue()<2) {
+					for (int i=62;i<79;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type4==true&&temperatureSlider.getValue()<2) {
+					for (int i=61;i<89;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type5==true&&temperatureSlider.getValue()<2) {
+					for (int i=53;i<81;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type6==true&&temperatureSlider.getValue()<2) {
+					for (int i=70;i<101;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.COFFEE&&type1==true&&temperatureSlider.getValue()>=2) {
 					for (int i=76;i<88;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type2==true) {
+				if (myDrink == MyDrink.COFFEE&&type2==true&&temperatureSlider.getValue()>=2) {
 					for (int i=61;i<71;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type3==true) {
+				if (myDrink == MyDrink.COFFEE&&type3==true&&temperatureSlider.getValue()>=2) {
 					for (int i=67;i<79;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type4==true) {
+				if (myDrink == MyDrink.COFFEE&&type4==true&&temperatureSlider.getValue()>=2) {
 					for (int i=67;i<89;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type5==true) {
+				if (myDrink == MyDrink.COFFEE&&type5==true&&temperatureSlider.getValue()>=2) {
 					for (int i=61;i<81;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.COFFEE&&type6==true) {
+				if (myDrink == MyDrink.COFFEE&&type6==true&&temperatureSlider.getValue()>=2) {
 					for (int i=76;i<101;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
+				
 				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
 					for (int i=83;i<92;i++) {
 					progressBar.setValue(i);
@@ -711,25 +881,50 @@ public class DrinkFactoryMachine extends JFrame{
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type1==true) {
+				
+				if (myDrink == MyDrink.TEA&&type1==true&&temperatureSlider.getValue()<2) {
+					for (int i=20;i<43;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type3==true&&temperatureSlider.getValue()<2) {
+					for (int i=28;i<40;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type4==true&&temperatureSlider.getValue()<2) {
+					for (int i=30;i<46;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type6==true&&temperatureSlider.getValue()<2) {
+					for (int i=28;i<48;i++) {
+					progressBar.setValue(i);
+							}
+					step = step + 1;
+						}
+				if (myDrink == MyDrink.TEA&&type1==true&&temperatureSlider.getValue()>=2) {
 					for (int i=36;i<43;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type3==true) {
+				if (myDrink == MyDrink.TEA&&type3==true&&temperatureSlider.getValue()>=2) {
 					for (int i=34;i<40;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type4==true) {
+				if (myDrink == MyDrink.TEA&&type4==true&&temperatureSlider.getValue()>=2) {
 					for (int i=36;i<46;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
-				if (myDrink == MyDrink.TEA&&type6==true) {
+				if (myDrink == MyDrink.TEA&&type6==true&&temperatureSlider.getValue()>=2) {
 					for (int i=34;i<48;i++) {
 					progressBar.setValue(i);
 							}
