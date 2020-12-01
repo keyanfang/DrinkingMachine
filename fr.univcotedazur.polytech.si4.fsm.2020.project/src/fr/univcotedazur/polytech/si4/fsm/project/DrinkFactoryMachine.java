@@ -324,7 +324,7 @@ public class DrinkFactoryMachine extends JFrame{
 
 
 		@Override
-		public void onBarRaised() throws Exception {
+		public void onBarRaised() {
 			boolean type1=false;
 			boolean type2=false;
 			boolean type3=false;
@@ -380,14 +380,24 @@ public class DrinkFactoryMachine extends JFrame{
 				
 				if (myDrink == MyDrink.EXPRESSO&&type1==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
 						for (int i=1;i<40;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
 						for (int i=1;i<46;i++) {
 							progressBar.setValue(i);
@@ -397,13 +407,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.EXPRESSO&&type2==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<30;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<39;i++) {
 							progressBar.setValue(i);
 									}
@@ -413,13 +433,23 @@ public class DrinkFactoryMachine extends JFrame{
 					
 				if (myDrink == MyDrink.EXPRESSO&&type3) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<35;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<43;i++) {
 							progressBar.setValue(i);
 									}
@@ -428,13 +458,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.EXPRESSO&&type4==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<40;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<46;i++) {
 							progressBar.setValue(i);
 									}
@@ -443,13 +483,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.EXPRESSO&&type5==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<30;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<39;i++) {
 							progressBar.setValue(i);
 									}
@@ -458,13 +508,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.EXPRESSO&&type6==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<35;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=1;i<43;i++) {
 							progressBar.setValue(i);
 									}
@@ -655,13 +715,23 @@ public class DrinkFactoryMachine extends JFrame{
 			case 2:
 				if (myDrink == MyDrink.COFFEE&&type1==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=51;i<70;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=51;i<76;i++) {
 							progressBar.setValue(i);
 									}
@@ -670,13 +740,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.COFFEE&&type2==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=41;i<55;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=41;i<61;i++) {
 							progressBar.setValue(i);
 									}
@@ -685,13 +765,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.COFFEE&&type3==true&&temperatureSlider.getValue()<2) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=45;i<62;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=45;i<67;i++) {
 							progressBar.setValue(i);
 									}
@@ -700,13 +790,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.COFFEE&&type4==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=45;i<60;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=45;i<67;i++) {
 							progressBar.setValue(i);
 									}
@@ -715,13 +815,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.COFFEE&&type5==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=41;i<53;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=41;i<61;i++) {
 							progressBar.setValue(i);
 									}
@@ -730,13 +840,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.COFFEE&&type6==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=51;i<70;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=51;i<76;i++) {
 							progressBar.setValue(i);
 									}
@@ -783,13 +903,23 @@ public class DrinkFactoryMachine extends JFrame{
 				}
 				if (myDrink == MyDrink.TEA&&type1==true&&temperatureSlider.getValue()<2) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=19;i<30;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=19;i<36;i++) {
 							progressBar.setValue(i);
 									}
@@ -798,13 +928,23 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.TEA&&type3==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=18;i<28;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=18;i<34;i++) {
 							progressBar.setValue(i);
 									}
@@ -813,26 +953,48 @@ public class DrinkFactoryMachine extends JFrame{
 						}
 				if (myDrink == MyDrink.TEA&&type4==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=19;i<30;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=19;i<36;i++) {
 							progressBar.setValue(i);
 									}
 					}
+					step++;
+				}
 				if (myDrink == MyDrink.TEA&&type6==true) {
 					if (temperatureSlider.getValue()<2) {
-						TimeUnit.SECONDS.sleep(1);
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=18;i<28;i++) {
 						progressBar.setValue(i);
 							}
 						}
 					else {
-						TimeUnit.SECONDS.sleep(3);
+						try {
+							TimeUnit.SECONDS.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						for (int i=18;i<34;i++) {
 							progressBar.setValue(i);
 									}
