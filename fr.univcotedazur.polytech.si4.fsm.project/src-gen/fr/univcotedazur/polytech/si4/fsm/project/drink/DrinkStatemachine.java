@@ -232,16 +232,16 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
-		private boolean chooseSirup;
+		private boolean chooseSyrup;
 		
 		
-		public void raiseChooseSirup() {
+		public void raiseChooseSyrup() {
 			synchronized(DrinkStatemachine.this) {
 				inEventQueue.add(
 					new Runnable() {
 						@Override
 						public void run() {
-							chooseSirup = true;
+							chooseSyrup = true;
 							singleCycle();
 						}
 					}
@@ -580,17 +580,17 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			}
 		}
 		
-		private boolean mySirup;
+		private boolean mySyrup;
 		
-		public synchronized boolean getMySirup() {
+		public synchronized boolean getMySyrup() {
 			synchronized(DrinkStatemachine.this) {
-				return mySirup;
+				return mySyrup;
 			}
 		}
 		
-		public void setMySirup(boolean value) {
+		public void setMySyrup(boolean value) {
 			synchronized(DrinkStatemachine.this) {
-				this.mySirup = value;
+				this.mySyrup = value;
 			}
 		}
 		
@@ -621,7 +621,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			isTea = false;
 			takeDrink = false;
 			chooseMilk = false;
-			chooseSirup = false;
+			chooseSyrup = false;
 			chooseIce = false;
 			changeText = false;
 			heatWater = false;
@@ -660,7 +660,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		main_region_Customer_r1_waitDrinkChoice,
 		main_region_Customer_extraIce_waitIce,
 		main_region_Customer_extraIce_choseIce,
-		main_region_Customer_extraSirup_waitSirup,
+		main_region_Customer_extraSirup_waitSyrup,
 		main_region_Customer_extraSirup_choseSirup,
 		main_region_Customer_extraMilk_waitMilk,
 		main_region_Customer_extraMilk_choseMilk,
@@ -729,7 +729,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		
 		sCInterface.setMyMilk(false);
 		
-		sCInterface.setMySirup(false);
+		sCInterface.setMySyrup(false);
 		
 		sCInterface.setMyIce(false);
 	}
@@ -796,8 +796,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			case main_region_Customer_extraIce_choseIce:
 				main_region_Customer_extraIce_choseIce_react(true);
 				break;
-			case main_region_Customer_extraSirup_waitSirup:
-				main_region_Customer_extraSirup_waitSirup_react(true);
+			case main_region_Customer_extraSirup_waitSyrup:
+				main_region_Customer_extraSirup_waitSyrup_react(true);
 				break;
 			case main_region_Customer_extraSirup_choseSirup:
 				main_region_Customer_extraSirup_choseSirup_react(true);
@@ -970,8 +970,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 			return stateVector[1] == State.main_region_Customer_extraIce_waitIce;
 		case main_region_Customer_extraIce_choseIce:
 			return stateVector[1] == State.main_region_Customer_extraIce_choseIce;
-		case main_region_Customer_extraSirup_waitSirup:
-			return stateVector[2] == State.main_region_Customer_extraSirup_waitSirup;
+		case main_region_Customer_extraSirup_waitSyrup:
+			return stateVector[2] == State.main_region_Customer_extraSirup_waitSyrup;
 		case main_region_Customer_extraSirup_choseSirup:
 			return stateVector[2] == State.main_region_Customer_extraSirup_choseSirup;
 		case main_region_Customer_extraMilk_waitMilk:
@@ -1136,8 +1136,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		sCInterface.raiseChooseMilk();
 	}
 	
-	public synchronized void raiseChooseSirup() {
-		sCInterface.raiseChooseSirup();
+	public synchronized void raiseChooseSyrup() {
+		sCInterface.raiseChooseSyrup();
 	}
 	
 	public synchronized void raiseChooseIce() {
@@ -1228,12 +1228,12 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		sCInterface.setMyMilk(value);
 	}
 	
-	public synchronized boolean getMySirup() {
-		return sCInterface.getMySirup();
+	public synchronized boolean getMySyrup() {
+		return sCInterface.getMySyrup();
 	}
 	
-	public synchronized void setMySirup(boolean value) {
-		sCInterface.setMySirup(value);
+	public synchronized void setMySyrup(boolean value) {
+		sCInterface.setMySyrup(value);
 	}
 	
 	public synchronized boolean getMyIce() {
@@ -1245,7 +1245,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	}
 	
 	private boolean check_main_region_Sugar_Water_r1__choice_0_tr0_tr0() {
-		return sCInterface.getMySirup()==true;
+		return sCInterface.getMySyrup()==true;
 	}
 	
 	private boolean check_main_region__choice_0_tr0_tr0() {
@@ -1310,7 +1310,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		
 		sCInterface.setMyMilk(false);
 		
-		sCInterface.setMySirup(false);
+		sCInterface.setMySyrup(false);
 		
 		sCInterface.setMyIce(false);
 	}
@@ -1557,10 +1557,10 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[1] = State.main_region_Customer_extraIce_choseIce;
 	}
 	
-	/* 'default' enter sequence for state waitSirup */
-	private void enterSequence_main_region_Customer_extraSirup_waitSirup_default() {
+	/* 'default' enter sequence for state waitSyrup */
+	private void enterSequence_main_region_Customer_extraSirup_waitSyrup_default() {
 		nextStateIndex = 2;
-		stateVector[2] = State.main_region_Customer_extraSirup_waitSirup;
+		stateVector[2] = State.main_region_Customer_extraSirup_waitSyrup;
 	}
 	
 	/* 'default' enter sequence for state choseSirup */
@@ -1942,8 +1942,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		stateVector[1] = State.$NullState$;
 	}
 	
-	/* Default exit sequence for state waitSirup */
-	private void exitSequence_main_region_Customer_extraSirup_waitSirup() {
+	/* Default exit sequence for state waitSyrup */
+	private void exitSequence_main_region_Customer_extraSirup_waitSyrup() {
 		nextStateIndex = 2;
 		stateVector[2] = State.$NullState$;
 	}
@@ -2273,8 +2273,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		}
 		
 		switch (stateVector[2]) {
-		case main_region_Customer_extraSirup_waitSirup:
-			exitSequence_main_region_Customer_extraSirup_waitSirup();
+		case main_region_Customer_extraSirup_waitSyrup:
+			exitSequence_main_region_Customer_extraSirup_waitSyrup();
 			break;
 		case main_region_Customer_extraSirup_choseSirup:
 			exitSequence_main_region_Customer_extraSirup_choseSirup();
@@ -2393,8 +2393,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	/* Default exit sequence for region extraSirup */
 	private void exitSequence_main_region_Customer_extraSirup() {
 		switch (stateVector[2]) {
-		case main_region_Customer_extraSirup_waitSirup:
-			exitSequence_main_region_Customer_extraSirup_waitSirup();
+		case main_region_Customer_extraSirup_waitSyrup:
+			exitSequence_main_region_Customer_extraSirup_waitSyrup();
 			break;
 		case main_region_Customer_extraSirup_choseSirup:
 			exitSequence_main_region_Customer_extraSirup_choseSirup();
@@ -2653,7 +2653,7 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 	
 	/* Default react sequence for initial entry  */
 	private void react_main_region_Customer_extraSirup__entry_Default() {
-		enterSequence_main_region_Customer_extraSirup_waitSirup_default();
+		enterSequence_main_region_Customer_extraSirup_waitSyrup_default();
 	}
 	
 	/* Default react sequence for initial entry  */
@@ -2965,17 +2965,17 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		return did_transition;
 	}
 	
-	private boolean main_region_Customer_extraSirup_waitSirup_react(boolean try_transition) {
+	private boolean main_region_Customer_extraSirup_waitSyrup_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.chooseSirup) {
-				exitSequence_main_region_Customer_extraSirup_waitSirup();
+			if (sCInterface.chooseSyrup) {
+				exitSequence_main_region_Customer_extraSirup_waitSyrup();
 				sCInterface.raiseConfirmCoins();
 				
 				sCInterface.raiseIsActive();
 				
-				sCInterface.setMySirup(true);
+				sCInterface.setMySyrup(true);
 				
 				enterSequence_main_region_Customer_extraSirup_choseSirup_default();
 			} else {
@@ -2989,15 +2989,15 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.chooseSirup) {
+			if (sCInterface.chooseSyrup) {
 				exitSequence_main_region_Customer_extraSirup_choseSirup();
 				sCInterface.raiseConfirmCoins();
 				
 				sCInterface.raiseIsActive();
 				
-				sCInterface.setMySirup(false);
+				sCInterface.setMySyrup(false);
 				
-				enterSequence_main_region_Customer_extraSirup_waitSirup_default();
+				enterSequence_main_region_Customer_extraSirup_waitSyrup_default();
 			} else {
 				did_transition = false;
 			}

@@ -53,8 +53,7 @@ class NFCuser{
 	
 	//at 11th time,return the amount he should pay
 	public int newNfcPay(int value) {
-		//TODO 10
-		if(paidTimes==2) {
+		if(paidTimes==10) {
 			int discount = paidSum/paidTimes;
 			paidTimes=0;
 			paidSum = 0;
@@ -86,7 +85,7 @@ public class DrinkFactoryMachine extends JFrame{
 	JButton money10centsButton;
 	JButton nfcBiiiipButton;
 	JButton addMilkButton;
-	JButton addSirupButton;
+	JButton addsyrupButton;
 	JButton addIceButton;
 	JButton refillButton;
 	JTextField NfcName;
@@ -104,12 +103,12 @@ public class DrinkFactoryMachine extends JFrame{
 	int teaNum=100;
 	int expressoNum=100;
 	int sugarNum=1000;
-	int sirupNum=500;
+	int syrupNum=500;
 	int milkNum=1000;
 	int iceNum=500;
-	boolean sirupTmpDis=false;
+	boolean syrupTmpDis=false;
 	boolean iceTmpDis=false;
-	boolean sirup=false;
+	boolean syrup=false;
 	boolean ice=false;
 	boolean milk=false;
 	boolean byNFC=false;
@@ -120,7 +119,7 @@ public class DrinkFactoryMachine extends JFrame{
 		optionPrice=0;
 		if(milk)
 			optionPrice += 10;
-		if(sirup)
+		if(syrup)
 			optionPrice += 10;
 		if(ice)
 			optionPrice += 60;
@@ -134,10 +133,10 @@ public class DrinkFactoryMachine extends JFrame{
 	
 	public void initialOptionButton() {
 		addMilkButton.setBackground(Color.DARK_GRAY);
-		addSirupButton.setBackground(Color.DARK_GRAY);
+		addsyrupButton.setBackground(Color.DARK_GRAY);
 		addIceButton.setBackground(Color.DARK_GRAY);
-		if(sirupTmpDis)
-			addSirupButton.setEnabled(true);
+		if(syrupTmpDis)
+			addsyrupButton.setEnabled(true);
 		if(iceTmpDis)
 			addIceButton.setEnabled(true);
 	}
@@ -188,9 +187,9 @@ public class DrinkFactoryMachine extends JFrame{
 			refund = 0;
 			step = 0;
 			iceTmpDis=false;
-			sirup=false;
+			syrup=false;
 			byNFC=false;
-			sirup=false;
+			syrup=false;
 			ice=false;
 			milk=false;
 			startPrepare = false;
@@ -256,8 +255,6 @@ public class DrinkFactoryMachine extends JFrame{
 			for(NFCuser nfcuser:NFCusers) {
 				if(nfcuser.name.equals(nfcName)) {
 					int nfcPay = nfcuser.newNfcPay(drinkPrice); 
-		 			  
-					//TODO
 					if(nfcPay==0) {
 						drinkPrice = 0;
 						messagesToUser.setText("<html>This is your 11th time using NFC. Your drink is free this time, start to make your drink.");
@@ -275,7 +272,6 @@ public class DrinkFactoryMachine extends JFrame{
 				NFCusers.add(user);
 				user.newNfcPay(drinkPrice);
 				
-				//TODO
 				messagesToUser.setText("<html>Hello, new nfc user, start to make your drink");
 			}
 			
@@ -294,8 +290,8 @@ public class DrinkFactoryMachine extends JFrame{
 			if (myDrink==MyDrink.EXPRESSO) {
 				expressoNum = expressoNum -1;
 			}
-			if (sirup==true) {
-				sirupNum=sirupNum - sugarSlider.getValue();
+			if (syrup==true) {
+				syrupNum=syrupNum - sugarSlider.getValue();
 			}else {
 				sugarNum=sugarNum - sugarSlider.getValue();
 			}
@@ -385,7 +381,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						
@@ -401,7 +397,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=1;i<39;i++) {
@@ -417,7 +413,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=1;i<43;i++) {
@@ -432,7 +428,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=1;i<46;i++) {
@@ -447,7 +443,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=1;i<39;i++) {
@@ -462,7 +458,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=1;i<43;i++) {
@@ -623,7 +619,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=51;i<76;i++) {
@@ -638,7 +634,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=41;i<61;i++) {
@@ -653,7 +649,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=45;i<67;i++) {
@@ -668,7 +664,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=45;i<67;i++) {
@@ -683,7 +679,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=41;i<61;i++) {
@@ -698,7 +694,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=51;i<76;i++) {
@@ -751,7 +747,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=19;i<36;i++) {
@@ -766,7 +762,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=18;i<34;i++) {
@@ -781,7 +777,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=19;i<36;i++) {
@@ -796,7 +792,7 @@ public class DrinkFactoryMachine extends JFrame{
 							TimeUnit.SECONDS.sleep(temperatureSlider.getValue());
 							theFSM.raiseHeatWater();
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+							 
 							e.printStackTrace();
 						}
 						for (int i=18;i<34;i++) {
@@ -1239,9 +1235,9 @@ public class DrinkFactoryMachine extends JFrame{
 				sugarSlider.setEnabled(false);
 				refillButton.setEnabled(true);
 			}
-			if (sirupNum==0) {
-				messagesToUser.setText("<html>Sadly we can't offer you sirup for now.");
-				addSirupButton.setEnabled(false);
+			if (syrupNum==0) {
+				messagesToUser.setText("<html>Sadly we can't offer you syrup for now.");
+				addsyrupButton.setEnabled(false);
 				refillButton.setEnabled(true);
 			}
 			if (milkNum==0) {
@@ -1429,18 +1425,18 @@ public class DrinkFactoryMachine extends JFrame{
 		      public void stateChanged(ChangeEvent event) {
 		    	  if(startPrepare)
 	            		return;
-				  //TODO
+				  
 		    	  if(sugarSlider.getValue()==0) {
-		    		  sirupTmpDis=true;
-		    		  if(sirup) {
-		    			  sirup=false;
+		    		  syrupTmpDis=true;
+		    		  if(syrup) {
+		    			  syrup=false;
 			    		  calculateOptionPrice();
-			    		  addSirupButton.setBackground(Color.DARK_GRAY);
+			    		  addsyrupButton.setBackground(Color.DARK_GRAY);
 			    		  messagesToUser.setText("<html>You choose not to add sugar, syrup is no longer available.");
 		    		  }
-		    		  addSirupButton.setEnabled(false); 
+		    		  addsyrupButton.setEnabled(false); 
 		    	  }else {
-		    		  addSirupButton.setEnabled(true);
+		    		  addsyrupButton.setEnabled(true);
 		    	  }
 		    	  
 		    	  theFSM.raiseChooseSlide();
@@ -1630,27 +1626,27 @@ public class DrinkFactoryMachine extends JFrame{
             }
         });
 		
-		addSirupButton = new JButton("Add sirup");
-		addSirupButton.setForeground(Color.WHITE);
-		addSirupButton.setBackground(Color.DARK_GRAY);
-		addSirupButton.setBounds(45, 446, 96, 25);
-		contentPane.add(addSirupButton);  
-		addSirupButton.addActionListener(new ActionListener() {
+		addsyrupButton = new JButton("Add syrup");
+		addsyrupButton.setForeground(Color.WHITE);
+		addsyrupButton.setBackground(Color.DARK_GRAY);
+		addsyrupButton.setBounds(45, 446, 96, 25);
+		contentPane.add(addsyrupButton);  
+		addsyrupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	if(startPrepare)
             		return;
 
-            	if(sirup) {
-	    			sirup=false;
-		    		addSirupButton.setBackground(Color.DARK_GRAY);
+            	if(syrup) {
+	    			syrup=false;
+		    		addsyrupButton.setBackground(Color.DARK_GRAY);
 	    		}else {
-	    			sirup=true;  
-	              	addSirupButton.setBackground(Color.green);
+	    			syrup=true;  
+	              	addsyrupButton.setBackground(Color.green);
 	    		}
             	
             	calculateOptionPrice();
-            	theFSM.raiseChooseSirup();
+            	theFSM.raiseChooseSyrup();
             }
         });
 		
@@ -1710,14 +1706,14 @@ public class DrinkFactoryMachine extends JFrame{
             	expressoNum=100;
             	sugarNum=1000;
             	iceNum=500;
-            	sirupNum=500;
+            	syrupNum=500;
             	milkNum=1000;
             	
             	coffeeButton.setEnabled(true);
         		expressoButton.setEnabled(true);
         		teaButton.setEnabled(true);
             	addMilkButton.setEnabled(true);
-        		addSirupButton.setEnabled(true);
+        		addsyrupButton.setEnabled(true);
         		addIceButton.setEnabled(true);
             	sugarSlider.setEnabled(true);
             	messagesToUser.setText("<html>We've refilled the machine and all kinds of drink are avaliable now!");

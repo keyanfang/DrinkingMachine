@@ -36,7 +36,7 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public void raiseChooseMilk();
 		
-		public void raiseChooseSirup();
+		public void raiseChooseSyrup();
 		
 		public void raiseChooseIce();
 		
@@ -82,9 +82,9 @@ public interface IDrinkStatemachine extends ITimerCallback,IStatemachine {
 		
 		public void setMyMilk(boolean value);
 		
-		public boolean getMySirup();
+		public boolean getMySyrup();
 		
-		public void setMySirup(boolean value);
+		public void setMySyrup(boolean value);
 		
 		public boolean getMyIce();
 		
