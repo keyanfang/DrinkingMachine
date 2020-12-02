@@ -3103,6 +3103,8 @@ public class DrinkStatemachine implements IDrinkStatemachine {
 					exitSequence_main_region_Customer_active_active();
 					sCInterface.raiseInitial();
 					
+					sCInterface.setMyCup(false);
+					
 					enterSequence_main_region_Customer_active_initAll_default();
 				} else {
 					did_transition = false;

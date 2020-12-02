@@ -1330,7 +1330,7 @@ public class DrinkFactoryMachine extends JFrame{
             	drinkPrice = 35;
             	initialDrinkButton();
             	DecimalFormat df = new DecimalFormat( "0.00");  
-				String toPay = df.format(0.01*(drinkPrice+optionPrice));
+				String toPay = df.format(0.01*(drinkPrice+optionPrice-cupValue-paidCoinsValue));
             	messagesToUser.setText("<html>Please pay "+toPay+"€ for your coffee");
             	if(iceTmpDis) {
             		iceTmpDis = false;
@@ -1355,7 +1355,7 @@ public class DrinkFactoryMachine extends JFrame{
             	myDrink = MyDrink.EXPRESSO;
             	drinkPrice = 50;
             	DecimalFormat df = new DecimalFormat( "0.00");  
-				String toPay = df.format(0.01*(drinkPrice+optionPrice));
+				String toPay = df.format(0.01*(drinkPrice+optionPrice-cupValue-paidCoinsValue));
             	messagesToUser.setText("<html>Please pay "+toPay+"€ for your expresso");
             	if(iceTmpDis) {
             		iceTmpDis = false;
@@ -1380,7 +1380,7 @@ public class DrinkFactoryMachine extends JFrame{
             	initialDrinkButton();
             	drinkPrice = 40;
             	DecimalFormat df = new DecimalFormat( "0.00");  
-				String toPay = df.format(0.01*(drinkPrice+optionPrice));
+				String toPay = df.format(0.01*(drinkPrice+optionPrice-cupValue-paidCoinsValue));
             	messagesToUser.setText("<html>Please pay "+toPay+"€ for your tea");
             	teaButton.setBackground(Color.green);
             	

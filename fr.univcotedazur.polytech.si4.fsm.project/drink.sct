@@ -95,7 +95,7 @@
           </vertices>
           <vertices xsi:type="sgraph:State" xmi:id="_tCP74A-LEeuD49gohd0kfA" name="active" incomingTransitions="_xgJDgA-LEeuD49gohd0kfA _Ag2CkA-MEeuD49gohd0kfA">
             <outgoingTransitions xmi:id="_xgJDgA-LEeuD49gohd0kfA" specification=" isActive" target="_tCP74A-LEeuD49gohd0kfA"/>
-            <outgoingTransitions xmi:id="_SUTAoA-NEeuv6skrhgXuWA" specification="after 45s/raise initial" target="_nKQNwA-LEeuD49gohd0kfA"/>
+            <outgoingTransitions xmi:id="_SUTAoA-NEeuv6skrhgXuWA" specification="after 45s/raise initial;myCup=false" target="_nKQNwA-LEeuD49gohd0kfA"/>
           </vertices>
         </regions>
         <regions xmi:id="_uYXmICQXEeuBbqcoKbBBaw" name="myCup">
