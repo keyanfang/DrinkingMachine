@@ -1,0 +1,9 @@
+Order = (initial -> chooseNFC -> chooseDrink ->Order |
+ initial ->chooseDrink->chooseNFC->Order |
+ initial -> chooseCoin->chooseDrink->Order|
+initial->chooseDrink->chooseCoin->Order).
+
+Prep = (prepStart  -> prepFinish ->takeDrink ->Prep).
+
+
+assert Prop = [] (initial->(<>chooseNFC))
