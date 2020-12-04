@@ -1,13 +1,11 @@
 Order = (initial -> chooseNFC -> chooseDrink ->Order |
- initial ->chooseDrink->chooseNFC->Order |
  initial -> chooseCoin->chooseDrink->Order|
-initial->chooseDrink->chooseCoin->Order).
+initial->chooseDrink->choosePayment->Order).
 
 Prep = (prepStart  -> prepFinish ->takeDrink ->Prep).
 
 Mutex = (chooseNFC -> chooseDrink -> Mutex
-        |chooseDrink -> chooseCoin -> Mutex
-		|chooseDrink->chooseNFC ->Mutex
+        |chooseDrink -> choosePayment -> Mutex
 		|chooseCoin->chooseDrink->Mutex
 ).
 assert Prop = [] (initial->(<>chooseNFC))
