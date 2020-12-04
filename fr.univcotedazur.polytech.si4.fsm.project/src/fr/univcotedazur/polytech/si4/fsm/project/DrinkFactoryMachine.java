@@ -966,7 +966,7 @@ public class DrinkFactoryMachine extends JFrame{
 					messagesToUser.setText("<html>Adding sugar/syrup and water");
 					{
 						
-						for (int i=36;i<79;i++) {
+						for (int i=36;i<40;i++) {
 							progressBar.setValue(i);
 									}
 					}
@@ -1096,14 +1096,14 @@ public class DrinkFactoryMachine extends JFrame{
 					step = step + 1;
 						}
 				if (myDrink == MyDrink.TEA&&type4==true) {
-					messagesToUser.setText("<html>Infusion");
+					messagesToUser.setText("<html>Infusion&teabag removement");
 					for (int i=46;i<79;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
 				if (myDrink == MyDrink.TEA&&type6==true) {
-					messagesToUser.setText("<html>Infusion");
+					messagesToUser.setText("<html>Infusion&teabag removement");
 					for (int i=48;i<83;i++) {
 					progressBar.setValue(i);
 							}
@@ -1161,14 +1161,14 @@ public class DrinkFactoryMachine extends JFrame{
 					step = step + 1;
 						}
 				if (myDrink == MyDrink.TEA&&type1==true) {
-					messagesToUser.setText("<html>Infusion");
+					messagesToUser.setText("<html>Infusion&teabag removement");
 					for (int i=49;i<83;i++) {
 					progressBar.setValue(i);
 							}
 					step = step + 1;
 						}
 				if (myDrink == MyDrink.TEA&&type3==true) {
-					messagesToUser.setText("<html>Infusion");
+					messagesToUser.setText("<html>Infusion&teabag removement");
 					for (int i=46;i<79;i++) {
 					progressBar.setValue(i);
 							}
@@ -1217,7 +1217,7 @@ public class DrinkFactoryMachine extends JFrame{
 					step = step + 1;
 						}
 				if (myDrink == MyDrink.TEA&&type4==true) {
-					messagesToUser.setText("<html>Adding ice");
+					messagesToUser.setText("<html>Adding milk");
 					for (int i=96;i<101;i++) {
 					progressBar.setValue(i);
 							}
