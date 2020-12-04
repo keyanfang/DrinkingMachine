@@ -218,7 +218,11 @@ public class DrinkFactoryMachine extends JFrame{
 
 		@Override
 		public void onCancelOrderRaised() {
-			messagesToUser.setText("<html>You canceled the order<br>Your 0."+paidCoinsValue+"€ have been returned");
+			if(paidCoinsValue>0) {
+				messagesToUser.setText("<html>You canceled the order<br>Your 0."+paidCoinsValue+"€ have been returned");
+			}else {
+				messagesToUser.setText("<html>You canceled the order");
+			}
 			cleanInfos();
 		}
  
